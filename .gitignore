@@ -1,31 +1,26 @@
-# Ignorar pastas geradas automaticamente
-dist/
+# 🛑 Ignorar pastas geradas automaticamente
 node_modules/
+dist/
 
-# Ignorar executáveis do Electron
-*.exe
-
-# Não é necessário enviar o arquivo de configuração do Electron
-node_modules
-
-# Ignorar arquivos de compilação
-dist
-
-# Ignorar arquivos temporários
-.DS_Store
-
-# Ignorar arquivos de log
+# 🛑 Ignorar arquivos de build do Electron
+# *.exe
 *.log
-
-# Ignorar arquivos de backup
 *.bak
-
-# Ignorar arquivos de cache
 *.cache
 
-# Ingora fotos e imagens
-*.jpg
-*.png
-*.gif
-*.jpeg
-*.ico
+# 🛑 Ignorar arquivos temporários do sistema
+.DS_Store
+Thumbs.db
+
+# 🛑 Ignorar arquivos do Electron que podem ser reconstruídos
+node_modules/
+dist/
+out/
+
+# 🛑 NÃO IGNORAR ícones e imagens necessários no projeto!
+# Se houver imagens usadas no app, remova essa linha!
+# *.jpg
+# *.png
+# *.gif
+# *.jpeg
+# *.ico
