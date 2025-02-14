@@ -14,8 +14,9 @@
   },
   "build": {
     "appId": "com.monitordeinternet.app",
-    "productName": "Monitor de Internet", 
+    "productName": "Monitor de Internet",
     "copyright": "© 2024 Monitor Maycon Dirino",
+    "asar": false,
     "directories": {
       "output": "dist"
     },
@@ -26,8 +27,11 @@
     "publish": {
       "provider": "github",
       "repo": "Monitor-de-Internet",
-      "owner": "md-dirino", 
+      "owner": "md-dirino",
       "releaseType": "release"
     }
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
   }
 }

@@ -8,6 +8,9 @@ node_modules/
 # Não é necessário enviar o arquivo de configuração do Electron
 node_modules
 
+# Ignorar arquivos de compilação
+dist
+
 # Ignorar arquivos temporários
 .DS_Store
 
