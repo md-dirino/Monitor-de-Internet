@@ -1,0 +1,28 @@
+# Ignorar pastas geradas automaticamente
+dist/
+node_modules/
+
+# Ignorar executáveis do Electron
+*.exe
+
+# Não é necessário enviar o arquivo de configuração do Electron
+node_modules
+
+# Ignorar arquivos temporários
+.DS_Store
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos de backup
+*.bak
+
+# Ignorar arquivos de cache
+*.cache
+
+# Ingora fotos e imagens
+*.jpg
+*.png
+*.gif
+*.jpeg
+*.ico

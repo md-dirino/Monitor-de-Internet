@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Internet</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            text-align: center;
+            color: white;
+            transition: background-color 0.5s ease-in-out;
+        }
+        .status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body id="body">
+    <div class="status" id="status">Testando conexão...</div>
+
+    <script>
+        async function verificarConexao() {
+            const statusElement = document.getElementById("status");
+            const bodyElement = document.getElementById("body");
+            
+            // Exibe status de teste
+            statusElement.textContent = "Testando conexão...";
+            bodyElement.style.backgroundColor = "orange";
+            
+            try {
+                await fetch("https://www.google.com", { mode: "no-cors" });
+                
+                // Se a requisição não der erro, está online
+                statusElement.textContent = "Conectado à Internet";
+                bodyElement.style.backgroundColor = "green";
+            } catch (error) {
+                // Se der erro, está offline
+                statusElement.textContent = "Sem conexão com a Internet";
+                bodyElement.style.backgroundColor = "red";
+            }
+        }
+        
+        // Verifica a conexão imediatamente e a cada 30 segundos
+        verificarConexao();
+        setInterval(verificarConexao, 30000);
+    </script>
+</body>
+</html>
