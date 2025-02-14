@@ -26,13 +26,16 @@
     <div class="status" id="status">Testando conexão...</div>
 
     <script>
+        let ultimoStatus = "";
+
         async function verificarConexao() {
             const statusElement = document.getElementById("status");
             const bodyElement = document.getElementById("body");
             
-            // Exibe status de teste
-            statusElement.textContent = "Testando conexão...";
-            bodyElement.style.backgroundColor = "orange";
+            if (ultimoStatus !== "Conectado à Internet") {
+                statusElement.textContent = "Testando conexão...";
+                bodyElement.style.backgroundColor = "orange";
+            }
             
             try {
                 await fetch("https://www.google.com", { mode: "no-cors" });
@@ -40,10 +43,12 @@
                 // Se a requisição não der erro, está online
                 statusElement.textContent = "Conectado à Internet";
                 bodyElement.style.backgroundColor = "green";
+                ultimoStatus = "Conectado à Internet";
             } catch (error) {
                 // Se der erro, está offline
                 statusElement.textContent = "Sem conexão com a Internet";
                 bodyElement.style.backgroundColor = "red";
+                ultimoStatus = "Sem conexão com a Internet";
             }
         }
         
