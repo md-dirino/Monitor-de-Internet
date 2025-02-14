@@ -24,12 +24,30 @@
       "target": "nsis",
       "icon": "assets/icon.ico"
     },
-    "publish": {
-      "provider": "github",
-      "repo": "Monitor-de-Internet",
-      "owner": "md-dirino",
-      "releaseType": "release"
-    }
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "repo": "Monitor-de-Internet",
+        "owner": "md-dirino",
+        "releaseType": "release"
+      }
+    ],
+    "files": [
+      "main.js",
+      "package.json",
+      "node_modules/**/*",
+      "assets/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/",
+        "to": "assets/"
+      }
+    ]
   },
   "dependencies": {
     "electron-updater": "^6.3.9"
