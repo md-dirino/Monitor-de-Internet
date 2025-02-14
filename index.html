@@ -23,7 +23,7 @@
     </style>
 </head>
 <body id="body">
-    <div class="status" id="status">Testando conexão...</div>
+    <div class="status" id="status">Testando Internet...</div>
 
     <script>
         let ultimoStatus = "";
@@ -33,7 +33,7 @@
             const bodyElement = document.getElementById("body");
             
             if (ultimoStatus !== "Conectado à Internet") {
-                statusElement.textContent = "Testando conexão...";
+                statusElement.textContent = "Testando Internet...";
                 bodyElement.style.backgroundColor = "orange";
             }
             
