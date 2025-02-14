@@ -14,15 +14,20 @@
   },
   "build": {
     "appId": "com.monitordeinternet.app",
-    "productName": "Monitor de Internet",
-    "copyright": "© 2024 Maycon Dirino",
+    "productName": "Monitor de Internet", 
+    "copyright": "© 2024 Monitor Maycon Dirino",
     "directories": {
       "output": "dist"
     },
     "win": {
       "target": "nsis",
       "icon": "assets/icon.ico"
+    },
+    "publish": {
+      "provider": "github",
+      "repo": "Monitor-de-Internet",
+      "owner": "md-dirino", 
+      "releaseType": "release"
     }
-  },
-  "description": ""
+  }
 }
