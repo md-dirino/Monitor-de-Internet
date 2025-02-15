@@ -3,53 +3,26 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^34.2.0",
-    "electron-builder": "^25.1.8"
-  },
-  "build": {
-    "appId": "com.monitordeinternet.app",
-    "productName": "Monitor de Internet",
-    "copyright": "© 2024 Monitor Maycon Dirino",
-    "asar": false,
-    "directories": {
-      "output": "dist"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "assets/icon.ico"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
-    },
-    "publish": [
-      {
-        "provider": "github",
-        "repo": "Monitor-de-Internet",
-        "owner": "md-dirino",
-        "releaseType": "release"
-      }
-    ],
-    "files": [
-      "main.js",
-      "package.json",
-      "node_modules/**/*",
-      "assets/**/*"
-    ],
-    "extraResources": [
-      {
-        "from": "assets/",
-        "to": "assets/"
-      }
-    ]
+    "@electron-forge/cli": "^7.6.1",
+    "@electron-forge/maker-deb": "^7.6.1",
+    "@electron-forge/maker-rpm": "^7.6.1",
+    "@electron-forge/maker-squirrel": "^7.6.1",
+    "@electron-forge/maker-zip": "^7.6.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.6.1",
+    "@electron-forge/plugin-fuses": "^7.6.1",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^34.2.0"
   },
   "dependencies": {
+    "electron-squirrel-startup": "^1.0.1",
     "electron-updater": "^6.3.9"
   }
 }
