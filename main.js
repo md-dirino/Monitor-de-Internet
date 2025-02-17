@@ -10,7 +10,7 @@ app.whenReady().then(() => {
         webPreferences: {
             nodeIntegration: true
         },
-        icon: "icon.png" // Define o ícone da janela
+        icon: "icon.ico" // Define o ícone da janela
     });
 
     // Remove o menu padrão
@@ -19,20 +19,4 @@ app.whenReady().then(() => {
 
     // Carrega o arquivo HTML local
     mainWindow.loadFile("index.html");
-
-    // Iniciar a verificação de atualizações
-    autoUpdater.checkForUpdatesAndNotify();
 });
-
-// Eventos para exibir mensagens no console
-autoUpdater.on("update-available", () => {
-    console.log("Nova atualização disponível!");
-  });
-  
-  autoUpdater.on("update-not-available", () => {
-    console.log("Nenhuma atualização encontrada.");
-  });
-  
-  autoUpdater.on("update-downloaded", () => {
-    console.log("Atualização baixada. Reinicie o aplicativo para aplicar.");
-  });
