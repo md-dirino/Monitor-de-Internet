@@ -1,4 +1,4 @@
-const { app, BrowserWindow, nativeTheme } = require('electron'); // Importa as bibliotecas necessárias
+const { app, BrowserWindow, nativeTheme, Menu } = require('electron'); // Importa as bibliotecas necessárias
 
 let mainWindow;
 
@@ -13,9 +13,12 @@ const createWindow = () => {
           nodeIntegration: true
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
-      autoHideMenuBar: true, // Oculta a barra de menu
+      //autoHideMenuBar: true, // Oculta a barra de menu nativa
       //titleBarStyle: 'hidden' // Oculta a barra de título e menu
   })
+
+  // Exibe o template do Menu personalizado
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
   // Carrega o arquivo HTML local
   mainWindow.loadFile("index.html");                                            
@@ -54,3 +57,73 @@ app.on('window-all-closed', () => {
         app.quit();
     }
 });
+
+// Cria template do menu
+const template = [
+  {
+    label: 'Menu',
+    submenu: [
+      {
+        label: 'Sobre',
+        click: () => {
+          aboutWindow();
+        }
+      }
+    ]
+  },
+  {
+    label: 'Exibir',
+    submenu: [
+      {
+        label: 'Recarregar',
+        role: 'reload',
+        accelerator: 'F5'
+      },
+      {
+        label: 'Zoom +',
+        role: 'zoomIn'
+      },
+      {
+        label: 'Zoom -',
+        role: 'zoomOut'
+      },
+      {
+        label: 'Minimizar',
+        role: 'minimize'
+      },
+      {
+        label: 'Restaurar Zoom',
+        role: 'resetZoom'
+      },
+      {
+        label: 'Tela cheia',
+        role: 'togglefullscreen'
+      }
+    ]
+  },
+  {
+    label: 'Ajuda',
+    submenu: [
+      {
+        label: 'Sobre',
+        click: () => {
+          aboutWindow();
+        }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Ferramenta do desenvolvedor',
+        role: 'toggleDevTools'
+      }
+    ]
+  },
+  {
+    label: 'Sair',
+    click: () => {
+      app.quit()
+      //accelerator: 'Alt+F4'
+    }
+  }
+]
