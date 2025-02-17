@@ -2,7 +2,7 @@ const { app, BrowserWindow, nativeTheme } = require('electron'); // Importa as b
 
 let mainWindow;
 
-// Cria a janela
+// Cria a janela principal
 const createWindow = () => {
   nativeTheme.themeSource = 'dark'; // Define o tema como dark pra janela
   mainWindow = new BrowserWindow ({
@@ -19,11 +19,27 @@ const createWindow = () => {
 
   // Carrega o arquivo HTML local
   mainWindow.loadFile("index.html");                                            
-};
+}
+
+// Janela "Sobre"
+const aboutWindow = () => {
+  const sobre = new BrowserWindow({
+      width: 400,
+      height: 200,
+      webPreferences: {
+          nodeIntegration: true
+      },
+      icon: "resources/app/icon.ico", // Define o ícone da janela
+      autoHideMenuBar: true, // Oculta a barra de menu
+  })
+
+  sobre.loadFile("sobre.html");
+}
 
 // Cria a janela quando o aplicativo é iniciado
 app.whenReady().then(() => {
-    createWindow();
+    createWindow(); // Exibe a janela principal ao abrir o aplicativo
+    //aboutWindow();
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
