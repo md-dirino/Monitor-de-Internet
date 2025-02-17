@@ -26,7 +26,8 @@
     },
     "win": {
       "target": "portable",
-      "icon": "resources/app/icon.ico"
+      "icon": "resources/app/icon.ico",
+      "artifactName": "Monitor de Internet.exe"
     },
     "files": [
       "main.js",

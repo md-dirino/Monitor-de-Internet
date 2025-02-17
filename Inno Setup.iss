@@ -44,7 +44,7 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\OneDrive\Códigos e Projetos\2 - Electron\Monitor de Internet\dist\win-unpacked\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\OneDrive\Códigos e Projetos\2 - Electron\Monitor de Internet\dist\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\OneDrive\Códigos e Projetos\2 - Electron\Monitor de Internet\dist\win-unpacked\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
