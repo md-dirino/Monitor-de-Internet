@@ -10,7 +10,7 @@ app.whenReady().then(() => {
         webPreferences: {
             nodeIntegration: true
         },
-        icon: "icon.ico" // Define o ícone da janela
+        icon: "resources/app/icon.ico" // Define o ícone da janela
     });
 
     // Remove o menu padrão

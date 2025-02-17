@@ -17,11 +17,3 @@ Thumbs.db
 node_modules/
 dist/
 out/
-
-# 🛑 NÃO IGNORAR ícones e imagens necessários no projeto!
-# Se houver imagens usadas no app, remova essa linha!
-# *.jpg
-# *.png
-# *.gif
-# *.jpeg
-# *.ico
