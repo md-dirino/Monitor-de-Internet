@@ -170,26 +170,14 @@ function getTimeDiffStr(msDiff) {
 // Agrupamento de "Caiu" e "Voltou" com formatação padronizada
 function exibirLog() {
     const logContainer = document.getElementById("logContainer");
-    if (!logAtivado) {
-        // Se o log não estiver ativado, esconde e não monta nada
-        logContainer.style.display = "none";
-        return;
-    }
-    // Se estiver ativado, exibe (caso exibirInfos seja true)
-    if (exibirInfos) {
-        logContainer.style.display = "block";
-    }
-
     let logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
     logs = limparLogAntigo(logs);
     localStorage.setItem("historicoLog", JSON.stringify(logs));
 
-    // Ordena do mais antigo para o mais novo para agrupar
-    const ordenadoAsc = [...logs].reverse(); 
-
+    // Gera o conteúdo de log
+    const ordenadoAsc = [...logs].reverse();
     const agrupado = [];
     let pendenteCaiu = null;
-
     for (let i = 0; i < ordenadoAsc.length; i++) {
         const entry = ordenadoAsc[i];
         if (entry.texto.includes("caiu")) {
@@ -220,17 +208,13 @@ function exibirLog() {
             const dataVoltou = new Date(grupo.voltou.time);
             const diffMs = dataVoltou - dataCaiu;
             const diffStr = getTimeDiffStr(diffMs);
-
             const diaCaiu = formatarDia(dataCaiu);
             const horaCaiu = formatarHora(dataCaiu);
             const diaVoltou = formatarDia(dataVoltou);
             const horaVoltou = formatarHora(dataVoltou);
-
             if (diaCaiu === diaVoltou) {
-                // Datas iguais: "17/02/2025 - 20:18:48 → 20:24:25 (por 6m)"
                 html += `<div class="log-item">${diaCaiu} - ${horaCaiu} → ${horaVoltou} (por ${diffStr})</div>`;
             } else {
-                // Datas diferentes: "17/02/2025 - 20:18:48 → 18/02/2025 20:24:25 (por 1d)"
                 html += `<div class="log-item">${diaCaiu} ${horaCaiu} → ${diaVoltou} ${horaVoltou} (por ${diffStr})</div>`;
             }
         } else if (grupo.caiu && !grupo.voltou) {
@@ -242,6 +226,19 @@ function exibirLog() {
         }
     }
 
+    // Se não houver conteúdo, oculta o container, independentemente da configuração
+    if (html.trim() === "") {
+        logContainer.style.display = "none";
+        logContainer.innerHTML = "";
+        return;
+    }
+
+    // Se houver conteúdo, exibe-o apenas se o log estiver ativado e exibirInfos true
+    if (logAtivado && exibirInfos) {
+        logContainer.style.display = "block";
+    } else {
+        logContainer.style.display = "none";
+    }
     logContainer.innerHTML = html;
 }
 
@@ -268,6 +265,49 @@ function formatarHora(dateObj) {
     const minuto = String(dateObj.getMinutes()).padStart(2, '0');
     const segundo = String(dateObj.getSeconds()).padStart(2, '0');
     return `${hora}:${minuto}:${segundo}`;
+}
+
+// Nova função: Exibe confirmação para limpar o log
+function confirmClearLog() {
+    let logs = JSON.parse(localStorage.getItem("historicoLog") || "[]");
+    if (logs.length === 0) {
+        mostrarPopup("Nenhum log para limpar!");
+        return;
+    }
+    
+    const popup = document.getElementById("popup");
+    popup.innerHTML = `
+        <div style="text-align:center;">
+            <p>Deseja mesmo limpar o log?</p>
+            <button id="confirmYes">Sim</button>
+            <button id="confirmNo">Não</button>
+        </div>
+    `;
+    popup.style.display = "block";
+    popup.classList.add("show");
+    
+    document.getElementById("confirmYes").addEventListener("click", () => {
+        clearLog();
+        popup.classList.remove("show");
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 1000);
+    });
+    
+    document.getElementById("confirmNo").addEventListener("click", () => {
+        popup.classList.remove("show");
+        setTimeout(() => {
+            popup.style.display = "none";
+            popup.textContent = ""; // Limpa o conteúdo modificado
+        }, 1000);
+    });
+}
+
+// Nova função: Limpa o log do localStorage e atualiza a área de log
+function clearLog() {
+    localStorage.removeItem("historicoLog");
+    exibirLog();
+    mostrarPopup("Log limpo!");
 }
 
 async function verificarConexao(manual = false) {

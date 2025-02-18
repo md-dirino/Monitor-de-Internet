@@ -104,6 +104,7 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 .log-container {
+    display: none; /* Inicia oculto */
     position: absolute;
     bottom: 20px;
     left: 50%;

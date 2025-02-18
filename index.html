@@ -1,45 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monitor de Internet 1.1.1</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Internet 1.1.1</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body id="body">
-  <div class="status" id="status" onclick="testarConexaoManual()">Inicializando...</div>
+    <div class="countdown" id="countdown">00:30</div>
 
-  <div class="log-container" id="logContainer"></div>
-  <div class="countdown" id="countdown">00:30</div>
+    <div class="status" id="status" onclick="testarConexaoManual()">Inicializando...</div>
 
-  <button class="config-button" id="configButton" onclick="toggleConfig()">⚙️</button>
-  <div class="config-container" id="config">
-      <label>
-          Tempo de Checagem (segundos):
-          <input type="number" id="tempoChecagem" min="5" value="30">
-      </label>
-      <label>
-          <input type="checkbox" id="somNotificacao" checked>
-          Ativar som da notificação
-      </label>
-      <label>
-          <input type="checkbox" id="logStatus" checked>
-          Ativar log de status
-      </label>
-      <label>
-          Manter log (dias):
-          <input type="number" id="manterLogDias" min="1" value="90">
-      </label>
-      <label>
-          <input type="checkbox" id="exibirTudo" checked>
-          Exibir tudo
-      </label>
-      <button onclick="salvarConfiguracoes()">Salvar</button>
-  </div>
-  <div class="popup" id="popup"></div>
+    <div class="log-container" id="logContainer"></div>
 
-  <button class="exibir-button" id="exibirButton" onclick="toggleExibir()">Exibir</button>
+    <button class="config-button" id="configButton" onclick="toggleConfig()">⚙️</button>
+    <div class="config-container" id="config">
+        <label>
+            Tempo de Checagem (segundos):
+            <input type="number" id="tempoChecagem" min="5" value="30">
+        </label>
+        <label>
+            <input type="checkbox" id="somNotificacao" checked>
+            Ativar som da notificação
+        </label>
+        <label>
+            <input type="checkbox" id="logStatus" checked>
+            Ativar log de status
+        </label>
+        <label>
+            Manter log (dias):
+            <input type="number" id="manterLogDias" min="1" value="90">
+        </label>
+        <label>
+            <input type="checkbox" id="exibirTudo" checked>
+            Exibir tudo
+        </label>
+        <button onclick="salvarConfiguracoes()">Salvar</button>
+        <button onclick="confirmClearLog()" style="margin-top: 10px;">Limpar Log</button>
+    </div>
+    <div class="popup" id="popup"></div>
 
-  <script src="script.js"></script>
+    <button class="exibir-button" id="exibirButton" onclick="toggleExibir()">Exibir</button>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
