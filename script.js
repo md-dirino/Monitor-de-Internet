@@ -98,21 +98,15 @@ function atualizarExibicao() {
         countdown.style.display = "block";
         configButton.style.display = "block";
         popup.style.display = "none"; // O popup aparece só quando necessário
-        // Se log estiver ativado, exibe; caso contrário, oculta
-        if (logAtivado) {
-            logContainer.style.display = "block";
-        } else {
-            logContainer.style.display = "none";
-        }
-        // Oculta o botão "Exibir"
+        // Removemos o controle do logContainer aqui; a função exibirLog gerencia sua exibição
         exibirBtn.style.display = "none";
     } else {
         // Oculta
         countdown.style.display = "none";
         configButton.style.display = "none";
-        logContainer.style.display = "none";
+        /* Não forçamos o logContainer para "block" ou "none" aqui,
+           pois a função exibirLog cuidará disso */
         popup.style.display = "none";
-        // Mostra o botão "Exibir"
         exibirBtn.style.display = "block";
     }
 }
@@ -310,6 +304,38 @@ function clearLog() {
     mostrarPopup("Log limpo!");
 }
 
+// Nova variável global para pausado
+let isCountdownPaused = false;
+
+// Função que atualiza o display do countdown com formatação dinâmica
+function updateCountdownDisplay() {
+    const countdown = document.getElementById("countdown");
+    if (isCountdownPaused) {
+        countdown.textContent = "Pausado";
+        return;
+    }
+    let totalSec = tempoRestante;
+    let h = Math.floor(totalSec / 3600);
+    let m = Math.floor((totalSec % 3600) / 60);
+    let s = totalSec % 60;
+    let display = "";
+    if (h > 0) {
+        display = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    } else if (m > 0) {
+        display = String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    } else {
+        display = String(s);
+    }
+    countdown.textContent = display;
+}
+
+// Atualiza o countdown quando clicado para pausar/despausar
+document.getElementById("countdown").style.cursor = "pointer"; // Exibe ponteiro
+document.getElementById("countdown").addEventListener("click", () => {
+    isCountdownPaused = !isCountdownPaused;
+    updateCountdownDisplay();
+});
+
 async function verificarConexao(manual = false) {
     const statusElement = document.getElementById("status");
     const bodyElement = document.getElementById("body");
@@ -353,12 +379,14 @@ async function verificarConexao(manual = false) {
     }
 }
 
+// Modifica o setInterval para levar em conta a pausa e chamar updateCountdownDisplay
 setInterval(() => {
-    tempoRestante--;
-    document.getElementById("countdown").textContent =
-        `${String(Math.floor(tempoRestante / 60)).padStart(2, '0')}:${String(tempoRestante % 60).padStart(2, '0')}`;
-    if (tempoRestante <= 0) {
-        verificarConexao();
+    if (!isCountdownPaused) {
+        tempoRestante--;
+        updateCountdownDisplay();
+        if (tempoRestante <= 0) {
+            verificarConexao();
+        }
     }
 }, 1000);
 
