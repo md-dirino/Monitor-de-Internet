@@ -27,8 +27,8 @@ const createWindow = () => {
 // Janela "Sobre"
 const aboutWindow = () => {
   const sobre = new BrowserWindow({
-      width: 400,
-      height: 200,
+      width: 600,
+      height: 500,
       webPreferences: {
           nodeIntegration: true
       },
