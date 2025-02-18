@@ -32,8 +32,11 @@
     "files": [
       "main.js",
       "index.html",
+      "sobre.html",
       "package.json",
       "icon.ico",
+      "style.css",
+      "script.js",
       "resources/**/*"
     ]
   }
