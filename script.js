@@ -231,7 +231,7 @@ function exibirLog() {
                 html += `<div class="log-item">${diaCaiu} - ${horaCaiu} → ${horaVoltou} (por ${diffStr})</div>`;
             } else {
                 // Datas diferentes: "17/02/2025 - 20:18:48 → 18/02/2025 20:24:25 (por 1d)"
-                html += `<div class="log-item">${diaCaiu} - ${horaCaiu} → ${diaVoltou} ${horaVoltou} (por ${diffStr})</div>`;
+                html += `<div class="log-item">${diaCaiu} ${horaCaiu} → ${diaVoltou} ${horaVoltou} (por ${diffStr})</div>`;
             }
         } else if (grupo.caiu && !grupo.voltou) {
             const dataCaiu = new Date(grupo.caiu.time);
