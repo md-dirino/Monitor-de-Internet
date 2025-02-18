@@ -87,28 +87,14 @@ function carregarConfiguracoes() {
 
 // Oculta ou exibe tudo, exceto o status, com base em "exibirInfos"
 function atualizarExibicao() {
-    const countdown = document.getElementById("countdown");
-    const configButton = document.getElementById("configButton");
-    const logContainer = document.getElementById("logContainer");
+    // Seleciona todos os elementos com a classe "toggleable", exceto o status e o container de configurações
+    const toggleables = document.querySelectorAll('.toggleable:not(#status):not(#config)');
+    toggleables.forEach(element => {
+        element.style.display = exibirInfos ? "block" : "none";
+    });
+    // Exibe o botão "Exibir" quando exibirTudo estiver desativado
     const exibirBtn = document.getElementById("exibirButton");
-    const popup = document.getElementById("popup");
-
-    if (exibirInfos) {
-        // Exibe
-        countdown.style.display = "block";
-        configButton.style.display = "block";
-        popup.style.display = "none"; // O popup aparece só quando necessário
-        // Removemos o controle do logContainer aqui; a função exibirLog gerencia sua exibição
-        exibirBtn.style.display = "none";
-    } else {
-        // Oculta
-        countdown.style.display = "none";
-        configButton.style.display = "none";
-        /* Não forçamos o logContainer para "block" ou "none" aqui,
-           pois a função exibirLog cuidará disso */
-        popup.style.display = "none";
-        exibirBtn.style.display = "block";
-    }
+    exibirBtn.style.display = exibirInfos ? "none" : "block";
 }
 
 // Botão "Exibir" no rodapé que reverte o estado

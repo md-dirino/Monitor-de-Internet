@@ -9,14 +9,14 @@
 </head>
 
 <body id="body">
-    <div class="countdown" id="countdown"></div>
+    <div class="toggleable countdown" id="countdown"></div>
 
     <div class="status" id="status" onclick="testarConexaoManual()">Inicializando...</div>
 
-    <div class="log-container" id="logContainer"></div>
+    <div class="toggleable log-container" id="logContainer"></div>
 
-    <button class="config-button" id="configButton" onclick="toggleConfig()">⚙️</button>
-    <div class="config-container" id="config">
+    <button class="toggleable config-button" id="configButton" onclick="toggleConfig()">⚙️</button>
+    <div class="toggleable config-container" id="config">
         <label>
             Tempo de Checagem (segundos):
             <input type="number" id="tempoChecagem" min="5" value="30">

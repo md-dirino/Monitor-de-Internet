@@ -141,3 +141,8 @@ body {
     display: none;
     z-index: 9999;
 }
+
+/* Nova classe para elementos controláveis */
+.toggleable {
+    transition: display 0.3s ease-in-out;
+}
