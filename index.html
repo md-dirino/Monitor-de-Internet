@@ -1,60 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor de Internet 1.0.2</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            font-size: 2rem;
-            text-align: center;
-            color: white;
-            transition: background-color 0.5s ease-in-out;
-        }
-        .status {
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitor de Internet 1.1.0</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body id="body">
-    <div class="status" id="status">Testando Internet...</div>
+  <div class="status" id="status" onclick="testarConexaoManual()">Inicializando...</div>
 
-    <script>
-        let ultimoStatus = "";
+  <div class="log-container" id="logContainer"></div>
+  <div class="countdown" id="countdown">00:30</div>
 
-        async function verificarConexao() {
-            const statusElement = document.getElementById("status");
-            const bodyElement = document.getElementById("body");
-            
-            if (ultimoStatus !== "Conectado à Internet") {
-                statusElement.textContent = "Testando Internet...";
-                bodyElement.style.backgroundColor = "orange";
-            }
-            
-            try {
-                await fetch("https://www.google.com", { mode: "no-cors" });
-                
-                // Se a requisição não der erro, está online
-                statusElement.textContent = "Conectado à Internet";
-                bodyElement.style.backgroundColor = "green";
-                ultimoStatus = "Conectado à Internet";
-            } catch (error) {
-                // Se der erro, está offline
-                statusElement.textContent = "Sem conexão com a Internet";
-                bodyElement.style.backgroundColor = "red";
-                ultimoStatus = "Sem conexão com a Internet";
-            }
-        }
-        
-        // Verifica a conexão imediatamente e a cada 30 segundos
-        verificarConexao();
-        setInterval(verificarConexao, 30000);
-    </script>
+  <button class="config-button" id="configButton" onclick="toggleConfig()">⚙️</button>
+  <div class="config-container" id="config">
+      <label>
+          Tempo de Checagem (segundos):
+          <input type="number" id="tempoChecagem" min="5" value="30">
+      </label>
+      <label>
+          <input type="checkbox" id="somNotificacao" checked>
+          Ativar som da notificação
+      </label>
+      <label>
+          <input type="checkbox" id="logStatus" checked>
+          Ativar log de status
+      </label>
+      <label>
+          Manter log (dias):
+          <input type="number" id="manterLogDias" min="1" value="90">
+      </label>
+      <label>
+          <input type="checkbox" id="exibirTudo" checked>
+          Exibir tudo
+      </label>
+      <button onclick="salvarConfiguracoes()">Salvar</button>
+  </div>
+  <div class="popup" id="popup"></div>
+
+  <button class="exibir-button" id="exibirButton" onclick="toggleExibir()">Exibir</button>
+
+  <script src="script.js"></script>
 </body>
 </html>
