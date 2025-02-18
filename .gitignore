@@ -3,6 +3,7 @@ node_modules/
 dist/
 out/
 outros/
+resources/
 
 # 🛑 Ignorar arquivos de build do Electron
 *.log
