@@ -1,7 +1,8 @@
-# 🛑 Ignorar pastas geradas automaticamente
+# 🛑 Ignorar pastas geradas e desnecessárias automaticamente
 node_modules/
 dist/
 out/
+outros/
 
 # 🛑 Ignorar arquivos de build do Electron
 # *.exe
