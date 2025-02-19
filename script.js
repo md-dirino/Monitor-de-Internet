@@ -344,6 +344,14 @@ function toggleFullscreen() {
     }
 }
 
+// Adiciona um event listener para detectar quando sai do fullscreen
+document.addEventListener("fullscreenchange", () => {
+    const btn = document.getElementById("fullscreenButton");
+    if (!document.fullscreenElement) {
+        btn.textContent = "⛶"; // Volta para o ícone inicial
+    }
+});
+
 // Event listener para o botão fullscreen
 document.getElementById("fullscreenButton").addEventListener("click", toggleFullscreen);
 
