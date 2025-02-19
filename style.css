@@ -66,41 +66,76 @@ body {
     position: absolute;
     bottom: 80px;
     right: 20px;
-    background: white;
-    color: black;
-    padding: 15px;
+    background: #2c2c2c;
+    color: #fff;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     text-align: left;
-    width: 250px;
+    width: 280px;
     font-size: 1rem;
-    z-index: 999; /* Para garantir que fique acima de outros elementos */
+    z-index: 999;
+    max-height: calc(100vh - 120px); /* altura máxima considerando a distância do bottom */
+    overflow-y: auto;
 }
 .config-container label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    padding-right: 15px; /* Evita que o texto encoste na barra de rolagem */
+}
+.config-container label.checkbox-label {
     display: flex;
     align-items: center;
-    font-size: 0.9rem;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    padding: 5px 0;
 }
 .config-container input[type="number"] {
     width: 100%;
-    padding: 5px;
+    padding: 8px;
     font-size: 0.9rem;
-    border: 1px solid #ccc;
+    background: #3a3a3a;
+    border: 1px solid #4a4a4a;
     border-radius: 5px;
+    color: #fff;
+    margin-top: 5px;
+    box-sizing: border-box;
 }
 .config-container input[type="checkbox"] {
-    margin-right: 8px;
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    accent-color: #007BFF;
 }
 .config-container button {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     font-size: 0.9rem;
     background: #007BFF;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+.config-container button:hover {
+    background: #0056b3;
+}
+.config-container button:last-child {
+    background: #dc3545;
+}
+.config-container button:last-child:hover {
+    background: #c82333;
+}
+.config-group {
+    border-bottom: 1px solid #4a4a4a;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+.config-group:last-of-type {
+    border-bottom: none;
+    margin-bottom: 10px;
 }
 .popup {
     position: absolute;

@@ -17,26 +17,32 @@
 
     <button class="toggleable config-button" id="configButton" onclick="toggleConfig()">⚙️</button>
     <div class="toggleable config-container" id="config">
-        <label>
-            Tempo de Checagem (segundos):
-            <input type="number" id="tempoChecagem" min="5" value="30">
-        </label>
-        <label>
-            <input type="checkbox" id="somNotificacao" checked>
-            Ativar som da notificação
-        </label>
-        <label>
-            <input type="checkbox" id="logStatus" checked>
-            Ativar log de status
-        </label>
-        <label>
-            Manter log (dias):
-            <input type="number" id="manterLogDias" min="1" value="90">
-        </label>
-        <label>
-            <input type="checkbox" id="exibirTudo" checked>
-            Exibir tudo
-        </label>
+        <div class="config-group">
+            <label>
+                Tempo de Checagem (segundos):
+                <input type="number" id="tempoChecagem" min="5" value="30">
+            </label>
+        </div>
+        <div class="config-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="somNotificacao" checked>
+                Ativar som da notificação
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="exibirTudo" checked>
+                Exibir tudo
+            </label>
+        </div>
+        <div class="config-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="logStatus" checked>
+                Ativar log de status
+            </label>
+            <label>
+                Manter log (dias):
+                <input type="number" id="manterLogDias" min="1" value="90">
+            </label>
+        </div>
         <button onclick="salvarConfiguracoes()">Salvar</button>
         <button onclick="confirmClearLog()" style="margin-top: 10px;">Limpar Log</button>
     </div>
