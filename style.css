@@ -11,7 +11,7 @@ body {
     color: white;
     transition: background-color 0.5s ease-in-out;
     position: relative;
-    background-color: teal; /* Cor inicial */
+    background: linear-gradient(180deg, teal, rgb(0, 83, 83)); /* Cor inicial em degradê */
 }
 .status {
     font-weight: bold;

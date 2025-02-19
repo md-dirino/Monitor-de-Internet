@@ -349,7 +349,8 @@ async function verificarConexao(manual = false) {
 
     if (manual || statusElement.textContent !== "Conectado à Internet") {
         statusElement.textContent = "Testando conexão...";
-        bodyElement.style.backgroundColor = "orange";
+        // Alterado para gradiente de "testando" (laranja)
+        bodyElement.style.background = "linear-gradient(180deg, orange, darkorange)";
     }
     tempoRestante = intervaloChecagem;
 
@@ -364,12 +365,14 @@ async function verificarConexao(manual = false) {
             adicionarLogEntrada("Conexão voltou");
         }
         statusElement.textContent = novoStatus;
-        bodyElement.style.backgroundColor = "green";
+        // Alterado para gradiente de "conectado" (verde)
+        bodyElement.style.background = "linear-gradient(180deg, green, darkgreen)";
         ultimoStatus = novoStatus;
 
     } catch (error) {
         statusElement.textContent = "Testando conexão...";
-        bodyElement.style.backgroundColor = "orange";
+        // Mantém gradiente de teste
+        bodyElement.style.background = "linear-gradient(180deg, orange, darkorange)";
 
         setTimeout(() => {
             const novoStatus = "Sem conexão com a Internet";
@@ -380,7 +383,8 @@ async function verificarConexao(manual = false) {
                 adicionarLogEntrada("Conexão caiu");
             }
             statusElement.textContent = novoStatus;
-            bodyElement.style.backgroundColor = "red";
+            // Alterado para gradiente de "offline" (vermelho)
+            bodyElement.style.background = "linear-gradient(180deg, red, darkred)";
             ultimoStatus = novoStatus;
         }, 500);
     }
