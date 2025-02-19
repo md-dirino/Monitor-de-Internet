@@ -206,19 +206,15 @@ function exibirLog() {
         }
     }
 
-    // Se não houver conteúdo, oculta o container, independentemente da configuração
-    if (html.trim() === "") {
+    // Se log não estiver ativado, ou exibirTudo for falso, ou nenhum log gerado, oculta o container
+    if (!logAtivado || !exibirInfos || html.trim() === "") {
         logContainer.style.display = "none";
         logContainer.innerHTML = "";
         return;
     }
 
-    // Se houver conteúdo, exibe-o apenas se o log estiver ativado e exibirInfos true
-    if (logAtivado && exibirInfos) {
-        logContainer.style.display = "block";
-    } else {
-        logContainer.style.display = "none";
-    }
+    // Caso contrário, exibe o container com o conteúdo
+    logContainer.style.display = "block";
     logContainer.innerHTML = html;
 }
 
