@@ -28,7 +28,7 @@ body {
     position: absolute;
     bottom: 20px;
     right: 20px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.486);
     color: white;
     border: none;
     padding: 10px;
@@ -145,4 +145,15 @@ body {
 /* Nova classe para elementos controláveis */
 .toggleable {
     transition: display 0.3s ease-in-out;
+}
+
+#fullscreenButton {
+    background: rgba(0, 0, 0, 0.486);
+    border: none;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.7);
+    z-index: 10000;
 }

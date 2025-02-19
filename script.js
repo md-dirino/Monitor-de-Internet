@@ -322,6 +322,27 @@ document.getElementById("countdown").addEventListener("click", () => {
     updateCountdownDisplay();
 });
 
+// Nova função: Alterna tela cheia
+function toggleFullscreen() {
+    const btn = document.getElementById("fullscreenButton");
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+            btn.textContent = "✖"; // Muda para X para sair do fullscreen
+        }).catch((err) => {
+            console.log("Erro ao entrar em fullscreen:", err);
+        });
+    } else {
+        document.exitFullscreen().then(() => {
+            btn.textContent = "⛶"; // Volta para o ícone inicial
+        }).catch((err) => {
+            console.log("Erro ao sair do fullscreen:", err);
+        });
+    }
+}
+
+// Event listener para o botão fullscreen
+document.getElementById("fullscreenButton").addEventListener("click", toggleFullscreen);
+
 async function verificarConexao(manual = false) {
     const statusElement = document.getElementById("status");
     const bodyElement = document.getElementById("body");
@@ -386,6 +407,7 @@ window.addEventListener("click", (e) => {
     }
 });
 
+// Ao carregar a página
 window.addEventListener("load", () => {
     carregarConfiguracoes();
     exibirLog();

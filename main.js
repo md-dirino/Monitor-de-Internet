@@ -21,7 +21,15 @@ const createWindow = () => {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
   // Carrega o arquivo HTML local
-  mainWindow.loadFile("index.html");                                            
+  mainWindow.loadFile("index.html");
+
+  // Captura quando a tecla ESC é pressionada e sai do modo tela cheia
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.type === 'keyDown' && input.key === 'Escape') {
+        mainWindow.setFullScreen(false); // Sai do modo fullscreen
+    }
+  });
+
 }
 
 // Janela "Sobre"
