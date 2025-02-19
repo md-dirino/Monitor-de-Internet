@@ -87,11 +87,19 @@ function carregarConfiguracoes() {
 
 // Oculta ou exibe tudo, exceto o status, com base em "exibirInfos"
 function atualizarExibicao() {
-    // Seleciona todos os elementos com a classe "toggleable", exceto o status e o container de configurações
     const toggleables = document.querySelectorAll('.toggleable:not(#status):not(#config)');
+    const logContainer = document.getElementById('logContainer');
+    const logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
+
     toggleables.forEach(element => {
-        element.style.display = exibirInfos ? "block" : "none";
+        // Caso especial para o logContainer
+        if (element === logContainer) {
+            element.style.display = exibirInfos && logs.length > 0 ? "block" : "none";
+        } else {
+            element.style.display = exibirInfos ? "block" : "none";
+        }
     });
+
     // Exibe o botão "Exibir" quando exibirTudo estiver desativado
     const exibirBtn = document.getElementById("exibirButton");
     exibirBtn.style.display = exibirInfos ? "none" : "block";
@@ -414,3 +422,41 @@ window.addEventListener("load", () => {
     verificarConexao(true);
     atualizarExibicao();
 });
+
+function atualizarLogContainer() {
+    const logContainer = document.getElementById('logContainer');
+    const logs = Array.from(logContainer.children);
+    
+    if (logs.length === 0) {
+        logContainer.style.display = 'none';
+        return;
+    }
+
+    if (config.exibirTudo) {
+        logContainer.style.display = 'block';
+    } else {
+        logContainer.style.display = 'none';
+    }
+}
+
+function adicionarLog(mensagem) {
+    if (!config.logStatus) return;
+
+    const logContainer = document.getElementById('logContainer');
+    const logItem = document.createElement('div');
+    logItem.className = 'log-item';
+    logItem.textContent = `${new Date().toLocaleString()} - ${mensagem}`;
+    logContainer.appendChild(logItem);
+    
+    // Chama a função após adicionar um novo log
+    atualizarLogContainer();
+
+    salvarLogs();
+}
+
+function carregarLogs() {
+    // ...existing code...
+    
+    // Adicione esta linha no final da função carregarLogs
+    atualizarLogContainer();
+}
