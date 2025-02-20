@@ -1,4 +1,5 @@
-console.log('Processo principal iniciado!');
+console.log('Processo principal iniciado!');  // Exibe uma mensagem no console
+
 // Importa as bibliotecas necessárias
 const { app, BrowserWindow, nativeTheme, Menu } = require('electron'); // Importa as bibliotecas necessárias
 
