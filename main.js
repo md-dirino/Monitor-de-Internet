@@ -12,7 +12,11 @@ const createWindow = () => {
       height: 600,
       //resizable: false, // Desabilita o redimensionamento da janela
       webPreferences: {
-          nodeIntegration: true
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true,
+        webSecurity: true,
+        //devTools: false  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
       //autoHideMenuBar: true, // Oculta a barra de menu nativa
@@ -125,7 +129,8 @@ const template = [
       },
       {
         label: 'Ferramenta do desenvolvedor',
-        role: 'toggleDevTools'
+        role: 'toggleDevTools',
+        accelerator: 'F12'
       }
     ]
   },
