@@ -1,4 +1,9 @@
 console.log('Processo principal iniciado!');  // Exibe uma mensagem no console
+console.log(`Electron: ${process.versions.electron}`); // Exibe a versão do Electron no console
+console.log(`Node: ${process.versions.node}`); // Exibe a versão do Node.js no console
+console.log(`Chrome: ${process.versions.chrome}`); // Exibe a versão do Chrome no console
+console.log(`V8: ${process.versions.v8}`); // Exibe a versão do V8 no console
+console.log(`Sistema Operacional: ${process.platform}`); // Exibe o sistema operacional no console
 
 // Importa as bibliotecas necessárias
 const { app, BrowserWindow, nativeTheme, Menu } = require('electron'); // Importa as bibliotecas necessárias
