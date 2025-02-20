@@ -23,13 +23,13 @@ const createWindow = () => {
         contextIsolation: false,
         enableRemoteModule: true,
         webSecurity: true,
-        //devTools: false  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
+        devTools: false  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
       //autoHideMenuBar: true, // Oculta a barra de menu nativa
       //titleBarStyle: 'hidden' // Oculta a barra de título e menu
       webPreferences: {
-        preload: "preload.js"
+        preload: "preload.js" // Carrega o arquivo preload.js
       } // Carrega o arquivo preload.js
   })
 
@@ -43,6 +43,13 @@ const createWindow = () => {
   mainWindow.webContents.on('before-input-event', (event, input) => {
     if (input.type === 'keyDown' && input.key === 'Escape') {
         mainWindow.setFullScreen(false); // Sai do modo fullscreen
+    }
+  });
+
+  // Abre a ferramenta de desenvolvedor com F12
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.type === 'keyDown' && input.key === 'F12') {
+        mainWindow.webContents.toggleDevTools(); // Abre a ferramenta de desenvolvedor
     }
   });
 
@@ -136,11 +143,6 @@ const template = [
       },
       {
         type: 'separator'
-      },
-      {
-        label: 'Ferramenta do desenvolvedor',
-        role: 'toggleDevTools',
-        accelerator: 'F12'
       }
     ]
   },
