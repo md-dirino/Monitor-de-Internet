@@ -361,13 +361,22 @@ async function verificarConexao(manual = false) {
 
     if (manual || statusElement.textContent !== "Conectado à Internet") {
         statusElement.textContent = "Testando conexão...";
-        // Alterado para gradiente de "testando" (laranja)
         bodyElement.style.background = "linear-gradient(180deg, orange, darkorange)";
     }
     tempoRestante = intervaloChecagem;
 
     try {
-        await fetch("https://www.google.com", { mode: "no-cors" });
+        // Primeiro verifica o status online do navegador
+        if (!navigator.onLine) {
+            throw new Error("Offline");
+        }
+
+        // Tenta fazer um ping simples para um recurso confiável
+        const response = await fetch('https://cloudflare.com/cdn-cgi/trace', {
+            mode: 'no-cors',
+            cache: 'no-store'
+        });
+
         const novoStatus = "Conectado à Internet";
 
         if (novoStatus !== ultimoStatus && somAtivado && ultimoStatus !== "") {
@@ -377,14 +386,12 @@ async function verificarConexao(manual = false) {
             adicionarLogEntrada("Conexão voltou");
         }
         statusElement.textContent = novoStatus;
-        // Alterado para gradiente de "conectado" (verde)
         bodyElement.style.background = "linear-gradient(180deg, green, darkgreen)";
         ultimoStatus = novoStatus;
 
     } catch (error) {
         statusElement.textContent = "Testando conexão...";
-        // Mantém gradiente de teste
-        bodyElement.style.background = "linear-gradient(180deg, orange, darkorange)";
+        bodyElement.style.background = "linear-gradient(180deg, orange, dargorange)";
 
         setTimeout(() => {
             const novoStatus = "Sem conexão com a Internet";
@@ -395,7 +402,6 @@ async function verificarConexao(manual = false) {
                 adicionarLogEntrada("Conexão caiu");
             }
             statusElement.textContent = novoStatus;
-            // Alterado para gradiente de "offline" (vermelho)
             bodyElement.style.background = "linear-gradient(180deg, red, darkred)";
             ultimoStatus = novoStatus;
         }, 500);
