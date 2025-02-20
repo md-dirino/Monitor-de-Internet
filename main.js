@@ -29,7 +29,7 @@ const createWindow = () => {
       //autoHideMenuBar: true, // Oculta a barra de menu nativa
       //titleBarStyle: 'hidden' // Oculta a barra de título e menu
       webPreferences: {
-        preload: path.join(__dirname, 'preload.js')
+        preload: "preload.js"
       } // Carrega o arquivo preload.js
   })
 

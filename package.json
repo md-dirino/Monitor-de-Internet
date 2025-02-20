@@ -37,6 +37,8 @@
       "icon.ico",
       "style.css",
       "script.js",
+      "render.js",
+      "preload.js",
       "resources/**/*"
     ]
   }
