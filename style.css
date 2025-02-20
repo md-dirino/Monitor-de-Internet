@@ -255,6 +255,11 @@ body {
     color: #ff0000;
 }
 
+.status-indicator.offline::after {
+    animation: pulseOffline 1s infinite;
+    box-shadow: 0 0 15px red;
+}
+
 .status-indicator.testing {
     color: #ffa500;
 }
@@ -271,5 +276,20 @@ body {
     100% {
         transform: translate(-50%, -50%) scale(0.8);
         opacity: 0.8;
+    }
+}
+
+@keyframes pulseOffline {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.3;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 1;
     }
 }
