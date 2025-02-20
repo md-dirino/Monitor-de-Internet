@@ -195,13 +195,13 @@ body {
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.658);
-    color: white;
+    background: rgba(0, 0, 0, 0.137);
+    color: rgba(255, 255, 255, 0.616);
     border: none;
     padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.0rem;
+    font-size: 0.9rem;
     display: none;
     z-index: 9999;
 }
