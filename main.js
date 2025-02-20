@@ -35,7 +35,7 @@ const createWindow = () => {
         preload: path.join(__dirname, 'preload.js')  // Mantido o caminho absoluto
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
-      //autoHideMenuBar: true, // Oculta a barra de menu nativa
+      autoHideMenuBar: true, // Oculta a barra de menu nativa
       //titleBarStyle: 'hidden' // Oculta a barra de título e menu
   })
 
