@@ -1,9 +1,4 @@
 console.log('Processo principal iniciado!');  // Exibe uma mensagem no console
-console.log(`Electron: ${process.versions.electron}`); // Exibe a versão do Electron no console
-console.log(`Node: ${process.versions.node}`); // Exibe a versão do Node.js no console
-console.log(`Chrome: ${process.versions.chrome}`); // Exibe a versão do Chrome no console
-console.log(`V8: ${process.versions.v8}`); // Exibe a versão do V8 no console
-console.log(`Sistema Operacional: ${process.platform}`); // Exibe o sistema operacional no console
 
 // Importa as bibliotecas necessárias
 const { app, BrowserWindow, nativeTheme, Menu } = require('electron'); // Importa as bibliotecas necessárias
@@ -19,18 +14,16 @@ const createWindow = () => {
       height: 600,
       //resizable: false, // Desabilita o redimensionamento da janela
       webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
+        nodeIntegration: false, // Mudado para false por segurança
+        contextIsolation: true, // Mudado para true
         enableRemoteModule: true,
         webSecurity: true,
-        devTools: false  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
+        //devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
+        preload: path.join(__dirname, 'preload.js')  // Mantido o caminho absoluto
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
       //autoHideMenuBar: true, // Oculta a barra de menu nativa
       //titleBarStyle: 'hidden' // Oculta a barra de título e menu
-      webPreferences: {
-        preload: "preload.js" // Carrega o arquivo preload.js
-      } // Carrega o arquivo preload.js
   })
 
   // Exibe o template do Menu personalizado
@@ -61,7 +54,9 @@ const aboutWindow = () => {
       width: 600,
       height: 500,
       webPreferences: {
-          nodeIntegration: true
+          nodeIntegration: false,
+          contextIsolation: true,
+          preload: path.join(__dirname, 'preload.js')
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
       autoHideMenuBar: true, // Oculta a barra de menu
