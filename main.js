@@ -148,9 +148,9 @@ const template = [
   },
   {
     label: 'Sair',
+    accelerator: 'Alt+F4',
     click: () => {
       app.quit()
-      //accelerator: 'Alt+F4'
     }
   }
 ]
