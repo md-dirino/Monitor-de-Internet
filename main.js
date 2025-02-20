@@ -1,8 +1,21 @@
 console.log('Processo principal iniciado!');  // Exibe uma mensagem no console
 
 // Importa as bibliotecas necessárias
-const { app, BrowserWindow, nativeTheme, Menu } = require('electron'); // Importa as bibliotecas necessárias
+const { app, BrowserWindow, nativeTheme, Menu, dialog } = require('electron'); // Importa as bibliotecas necessárias
+const { autoUpdater } = require('electron-updater'); // Importa a biblioteca de atualização
+
 const path = require('node:path'); // Importa a biblioteca path
+const log = require('electron-log'); // Importa a biblioteca de log
+
+// Configurar logs para depuração
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+
+// URL de atualizações (verifique se está correto)
+const server = 'https://update.electronjs.org';
+const feed = `${server}/md-dirino/Monitor-de-Internet/${process.platform}-${process.arch}/${app.getVersion()}`;
+
+//autoUpdater.setFeedURL({ provider: 'github' });
 
 let mainWindow;
 
@@ -18,7 +31,7 @@ const createWindow = () => {
         contextIsolation: true, // Mudado para true
         enableRemoteModule: true,
         webSecurity: true,
-        devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
+        //devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
         preload: path.join(__dirname, 'preload.js')  // Mantido o caminho absoluto
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
@@ -46,7 +59,31 @@ const createWindow = () => {
     }
   });
 
+  // Verifica por atualizações após iniciar o app
+  setTimeout(() => {
+    autoUpdater.checkForUpdatesAndNotify();
+  }, 5000); // Pequeno delay para evitar conflitos
+
 }
+
+// Eventos do autoUpdater
+autoUpdater.on('update-available', () => {
+  dialog.showMessageBox({
+      type: 'info',
+      title: 'Atualização disponível',
+      message: 'Uma nova versão está disponível. Baixando agora...',
+  });
+});
+
+autoUpdater.on('update-downloaded', () => {
+  dialog.showMessageBox({
+      type: 'info',
+      title: 'Atualização pronta',
+      message: 'A atualização foi baixada. O aplicativo será reiniciado para aplicar as alterações.',
+  }).then(() => {
+      autoUpdater.quitAndInstall();
+  });
+});
 
 // Janela "Sobre"
 const aboutWindow = () => {
