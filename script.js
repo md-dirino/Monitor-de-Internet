@@ -358,20 +358,20 @@ document.getElementById("fullscreenButton").addEventListener("click", toggleFull
 async function verificarConexao(manual = false) {
     const statusElement = document.getElementById("status");
     const bodyElement = document.getElementById("body");
+    const indicatorElement = document.getElementById("statusIndicator");
 
     if (manual || statusElement.textContent !== "Conectado à Internet") {
         statusElement.textContent = "Testando conexão...";
         bodyElement.style.background = "linear-gradient(180deg, orange, darkorange)";
+        indicatorElement.className = "status-indicator toggleable testing";
     }
     tempoRestante = intervaloChecagem;
 
     try {
-        // Primeiro verifica o status online do navegador
         if (!navigator.onLine) {
             throw new Error("Offline");
         }
 
-        // Tenta fazer um ping simples para um recurso confiável
         const response = await fetch('https://cloudflare.com/cdn-cgi/trace', {
             mode: 'no-cors',
             cache: 'no-store'
@@ -387,11 +387,13 @@ async function verificarConexao(manual = false) {
         }
         statusElement.textContent = novoStatus;
         bodyElement.style.background = "linear-gradient(180deg, green, darkgreen)";
+        indicatorElement.className = "status-indicator toggleable online";
         ultimoStatus = novoStatus;
 
     } catch (error) {
         statusElement.textContent = "Testando conexão...";
         bodyElement.style.background = "linear-gradient(180deg, orange, dargorange)";
+        indicatorElement.className = "status-indicator toggleable testing";
 
         setTimeout(() => {
             const novoStatus = "Sem conexão com a Internet";
@@ -403,6 +405,7 @@ async function verificarConexao(manual = false) {
             }
             statusElement.textContent = novoStatus;
             bodyElement.style.background = "linear-gradient(180deg, red, darkred)";
+            indicatorElement.className = "status-indicator toggleable offline";
             ultimoStatus = novoStatus;
         }, 500);
     }
