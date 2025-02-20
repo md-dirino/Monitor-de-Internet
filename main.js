@@ -2,6 +2,7 @@ console.log('Processo principal iniciado!');  // Exibe uma mensagem no console
 
 // Importa as bibliotecas necessárias
 const { app, BrowserWindow, nativeTheme, Menu } = require('electron'); // Importa as bibliotecas necessárias
+const path = require('node:path'); // Importa a biblioteca path
 
 let mainWindow;
 
@@ -22,6 +23,9 @@ const createWindow = () => {
       icon: "resources/app/icon.ico", // Define o ícone da janela
       //autoHideMenuBar: true, // Oculta a barra de menu nativa
       //titleBarStyle: 'hidden' // Oculta a barra de título e menu
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+      } // Carrega o arquivo preload.js
   })
 
   // Exibe o template do Menu personalizado
