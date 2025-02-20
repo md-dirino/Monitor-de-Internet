@@ -1,6 +1,7 @@
 let ultimoStatus = "";
 let intervaloChecagem = parseInt(localStorage.getItem("tempoChecagem")) || 30;
 let somAtivado = localStorage.getItem("somNotificacao") !== "false";
+let notificacaoAtivada = localStorage.getItem("notificacaoSistema") !== "false"; // Nova variável
 let tempoRestante = intervaloChecagem;
 
 let logAtivado = localStorage.getItem("logStatus") !== "false"; 
@@ -19,18 +20,21 @@ function toggleConfig() {
 function salvarConfiguracoes() {
     const tempo = document.getElementById("tempoChecagem").value;
     const som = document.getElementById("somNotificacao").checked;
+    const notificacao = document.getElementById("notificacaoSistema").checked;
     const logStatusCheck = document.getElementById("logStatus").checked;
     const manterLogDiasValue = document.getElementById("manterLogDias").value;
     const exibirTudoCheck = document.getElementById("exibirTudo").checked;
 
     localStorage.setItem("tempoChecagem", tempo);
     localStorage.setItem("somNotificacao", som);
+    localStorage.setItem("notificacaoSistema", notificacao);
     localStorage.setItem("logStatus", logStatusCheck);
     localStorage.setItem("manterLogDias", manterLogDiasValue);
     localStorage.setItem("exibirTudo", exibirTudoCheck);
 
     intervaloChecagem = parseInt(tempo);
     somAtivado = som;
+    notificacaoAtivada = notificacao;
     logAtivado = logStatusCheck;
     manterLogDias = parseInt(manterLogDiasValue);
     exibirInfos = exibirTudoCheck;
@@ -58,6 +62,7 @@ function mostrarPopup(mensagem) {
 function carregarConfiguracoes() {
     const tempo = localStorage.getItem("tempoChecagem");
     const som = localStorage.getItem("somNotificacao");
+    const notificacao = localStorage.getItem("notificacaoSistema");
     const logStatusCheck = localStorage.getItem("logStatus");
     const manterLogDiasStorage = localStorage.getItem("manterLogDias");
     const exibirTudoStorage = localStorage.getItem("exibirTudo");
@@ -70,6 +75,10 @@ function carregarConfiguracoes() {
     if (som !== null) {
         document.getElementById("somNotificacao").checked = (som !== "false");
         somAtivado = (som !== "false");
+    }
+    if (notificacao !== null) {
+        document.getElementById("notificacaoSistema").checked = (notificacao !== "false");
+        notificacaoAtivada = (notificacao !== "false");
     }
     if (logStatusCheck !== null) {
         document.getElementById("logStatus").checked = (logStatusCheck !== "false");
@@ -355,6 +364,32 @@ document.addEventListener("fullscreenchange", () => {
 // Event listener para o botão fullscreen
 document.getElementById("fullscreenButton").addEventListener("click", toggleFullscreen);
 
+// Nova função para enviar notificações do sistema
+function enviarNotificacao(titulo, mensagem) {
+    if (!notificacaoAtivada) return;
+    
+    if (!("Notification" in window)) return;
+    
+    const options = {
+        body: mensagem,
+        icon: 'resources/app/icon.ico', // Se tiver um ícone
+        silent: true, // Não emite som próprio pois já temos nosso sistema de sons
+        tag: 'monitor-internet', // Identifica unicamente a notificação
+        requireInteraction: false, // Fecha automaticamente
+        data: { application: 'Monitor de Internet' }
+    };
+    
+    if (Notification.permission === "granted") {
+        new Notification("Monitor de Internet - " + titulo, options);
+    } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                new Notification("Monitor de Internet - " + titulo, options);
+            }
+        });
+    }
+}
+
 async function verificarConexao(manual = false) {
     const statusElement = document.getElementById("status");
     const bodyElement = document.getElementById("body");
@@ -384,6 +419,7 @@ async function verificarConexao(manual = false) {
         }
         if (ultimoStatus === "Sem conexão com a Internet" && novoStatus === "Conectado à Internet") {
             adicionarLogEntrada("Conexão voltou");
+            enviarNotificacao("Conexão Restaurada", "Sua conexão com a Internet foi restabelecida.");
         }
         statusElement.textContent = novoStatus;
         bodyElement.style.background = "linear-gradient(180deg, green, darkgreen)";
@@ -402,6 +438,7 @@ async function verificarConexao(manual = false) {
             }
             if (ultimoStatus === "Conectado à Internet" && novoStatus === "Sem conexão com a Internet") {
                 adicionarLogEntrada("Conexão caiu");
+                enviarNotificacao("Conexão Perdida", "Sua conexão com a Internet foi interrompida.");
             }
             statusElement.textContent = novoStatus;
             bodyElement.style.background = "linear-gradient(180deg, red, darkred)";
@@ -434,6 +471,9 @@ window.addEventListener("click", (e) => {
 
 // Ao carregar a página
 window.addEventListener("load", () => {
+    if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission();
+    }
     carregarConfiguracoes();
     exibirLog();
     verificarConexao(true);
