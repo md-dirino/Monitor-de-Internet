@@ -141,7 +141,7 @@ body {
 }
 .popup {
     position: absolute;
-    bottom: 35%;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.7);
@@ -152,6 +152,7 @@ body {
     opacity: 0;
     display: none;
     transition: opacity 1s ease-out;
+    z-index: 1000;
 }
 .popup.show {
     display: block;
