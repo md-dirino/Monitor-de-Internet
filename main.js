@@ -1,3 +1,5 @@
+console.log('Processo principal iniciado!');
+// Importa as bibliotecas necessárias
 const { app, BrowserWindow, nativeTheme, Menu } = require('electron'); // Importa as bibliotecas necessárias
 
 let mainWindow;
