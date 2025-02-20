@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Monitor de Internet"
-#define MyAppVersion "1.2.0"
+#define MyAppVersion "1.2.1"
 #define MyAppPublisher "Maycon Douglas Dirino Silva"
 #define MyAppURL "https://github.com/md-dirino"
 #define MyAppExeName "Monitor de Internet.exe"
