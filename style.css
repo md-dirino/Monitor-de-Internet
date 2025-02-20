@@ -76,7 +76,9 @@ body {
     font-size: 1rem;
     z-index: 999;
     max-height: calc(100vh - 120px); /* altura máxima considerando a distância do bottom */
+    height: auto;
     overflow-y: auto;
+    top: 20px; /* Adiciona um espaço de 20px do topo da tela */
 }
 .config-container label {
     display: block;
