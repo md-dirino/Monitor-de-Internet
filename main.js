@@ -21,6 +21,8 @@ const feed = `${server}/md-dirino/Monitor-de-Internet/${process.platform}-${proc
 
 //autoUpdater.setFeedURL({ provider: 'github' });
 
+app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
+
 let mainWindow;
 
 // Cria a janela principal
