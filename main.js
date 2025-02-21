@@ -76,18 +76,34 @@ autoUpdater.on('update-available', () => {
       buttons: ['Sim', 'Cancelar']
   }).then(result => {
       if (result.response === 0) { // Se o usuário clicar em "Sim"
-          autoUpdater.downloadUpdate();
+          dialog.showMessageBox({
+              type: 'info',
+              title: 'Baixando atualização...',
+              message: 'Aguarde enquanto a nova versão está sendo baixada...',
+          });
+          autoUpdater.downloadUpdate(); // Inicia o download manualmente
       }
   });
 });
 
+// Evento para exibir progresso do download
+autoUpdater.on('download-progress', (progressObj) => {
+  dialog.showMessageBox({
+      type: 'info',
+      title: 'Baixando atualização...',
+      message: `Progresso: ${progressObj.percent.toFixed(2)}%`,
+      buttons: ['OK']
+  });
+});
+
+// Quando o download for concluído, exibe a mensagem de instalação
 autoUpdater.on('update-downloaded', () => {
   dialog.showMessageBox({
       type: 'info',
       title: 'Atualização pronta',
       message: 'A atualização foi baixada. O aplicativo será reiniciado para aplicar as alterações.',
   }).then(() => {
-      autoUpdater.quitAndInstall(); // Fecha o app e instala a nova versão
+      autoUpdater.quitAndInstall();
   });
 });
 
