@@ -1,6 +1,6 @@
 {
   "name": "monitor-de-internet",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -43,11 +43,13 @@
       "preload.js",
       "resources/**/*"
     ],
-    "publish": {
+    "publish": [
+    {
       "provider": "github",
       "owner": "md-dirino",
       "repo": "Monitor-de-Internet",
       "releaseType": "release"
     }
+    ]
   }
 }
