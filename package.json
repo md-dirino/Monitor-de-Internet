@@ -26,7 +26,7 @@
       "output": "dist"
     },
     "win": {
-      "target": "portable",
+      "target": "nsis",
       "icon": "resources/app/icon.ico",
       "artifactName": "Monitor de Internet.exe"
     },
