@@ -29,7 +29,7 @@
     "win": {
       "target": "nsis",
       "icon": "resources/app/icon.ico",
-      "artifactName": "Monitor de Internet.exe"
+      "artifactName": "Instalar Monitor de Internet.exe"
     },
     "files": [
       "main.js",
