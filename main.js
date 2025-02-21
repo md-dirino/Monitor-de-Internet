@@ -11,10 +11,6 @@ const log = require('electron-log'); // Importa a biblioteca de log
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
-// Adiciona logs no console e no arquivo
-log.transports.console.level = 'info';
-log.transports.file.level = 'info';
-
 // Basico de Atualização
 autoUpdater.autoDownload = false; // Desabilita o download automático
 autoUpdater.autoInstallOnAppQuit = true; // Instala a atualização ao sair do app
@@ -69,26 +65,20 @@ const createWindow = () => {
 
   // Verifica por atualizações após iniciar o app
   setTimeout(() => {
-    log.info("🔍 Verificando por atualizações...");
+    console.log("🔍 Verificando por atualizações...");
     autoUpdater.checkForUpdates().then(updateCheck => {
         if (updateCheck.updateInfo.version) {
-            log.info(`✅ Nova versão disponível: ${updateCheck.updateInfo.version}`);
-            mainWindow.webContents.send('update-available', updateCheck.updateInfo.version);
+            console.log(`✅ Nova versão disponível: ${updateCheck.updateInfo.version}`);
         } else {
-            log.info("❌ Nenhuma atualização disponível.");
-            mainWindow.webContents.send('update-not-available');
+            console.log("❌ Nenhuma atualização disponível.");
         }
-    }).catch(err => {
-        log.error("⚠️ Erro ao verificar atualização:", err);
-        mainWindow.webContents.send('update-error', err);
-    });
+    }).catch(err => console.error("⚠️ Erro ao verificar atualização:", err));
   }, 5000);
 
 }
 
 // Eventos do autoUpdater
 autoUpdater.on('update-available', () => {
-  log.info("🔔 Atualização disponível.");
   dialog.showMessageBox({
       type: 'info',
       title: 'Atualização disponível',
@@ -97,7 +87,6 @@ autoUpdater.on('update-available', () => {
 });
 
 autoUpdater.on('update-downloaded', () => {
-  log.info("📥 Atualização baixada.");
   dialog.showMessageBox({
       type: 'info',
       title: 'Atualização pronta',
