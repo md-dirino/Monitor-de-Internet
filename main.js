@@ -2,7 +2,7 @@ console.log('Processo principal iniciado!');  // Exibe uma mensagem no console
 
 // Importa as bibliotecas necessárias
 const { app, BrowserWindow, nativeTheme, Menu, dialog } = require('electron'); // Importa as bibliotecas necessárias
-const { autoUpdater } = require('electron-updater'); // Importa a biblioteca de atualização
+const { autoUpdater, AppUpdater } = require('electron-updater'); // Importa a biblioteca de atualização
 
 const path = require('node:path'); // Importa a biblioteca path
 const log = require('electron-log'); // Importa a biblioteca de log
@@ -10,6 +10,10 @@ const log = require('electron-log'); // Importa a biblioteca de log
 // Configurar logs para depuração
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
+
+// Basico de Atualização
+autoUpdater.autoDownload = false; // Desabilita o download automático
+autoUpdater.autoInstallOnAppQuit = true; // Instala a atualização ao sair do app
 
 // URL de atualizações (verifique se está correto)
 const server = 'https://update.electronjs.org';
@@ -65,10 +69,15 @@ const createWindow = () => {
     autoUpdater.checkForUpdates().then(updateCheck => {
         if (updateCheck.updateInfo.version) {
             console.log(`✅ Nova versão disponível: ${updateCheck.updateInfo.version}`);
+            mainWindow.webContents.send('update-available', updateCheck.updateInfo.version);
         } else {
             console.log("❌ Nenhuma atualização disponível.");
+            mainWindow.webContents.send('update-not-available');
         }
-    }).catch(err => console.error("⚠️ Erro ao verificar atualização:", err));
+    }).catch(err => {
+        console.error("⚠️ Erro ao verificar atualização:", err);
+        mainWindow.webContents.send('update-error', err);
+    });
   }, 5000);
 
 }
@@ -119,6 +128,9 @@ app.whenReady().then(() => {
             createWindow();
         }
     });
+
+    autoUpdater.checkForUpdates(); // Verifica por atualizações ao iniciar o app
+  
 });
 
 // Fecha a janela quando o aplicativo é fechado

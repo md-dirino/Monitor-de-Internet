@@ -6,6 +6,7 @@
     "start": "electron .",
     "build": "electron-builder --win portable --publish always"
   },
+  "repository": "https://github.com/md-dirino/Monitor-de-Internet",
   "keywords": [],
   "author": "",
   "license": "ISC",
