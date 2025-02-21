@@ -31,7 +31,7 @@ const createWindow = () => {
         contextIsolation: true, // Mudado para true
         enableRemoteModule: true,
         webSecurity: true,
-        devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
+        //devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
         preload: path.join(__dirname, 'preload.js')  // Mantido o caminho absoluto
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
@@ -61,8 +61,15 @@ const createWindow = () => {
 
   // Verifica por atualizações após iniciar o app
   setTimeout(() => {
-    autoUpdater.checkForUpdatesAndNotify();
-  }, 5000); // Pequeno delay para evitar conflitos
+    console.log("🔍 Verificando por atualizações...");
+    autoUpdater.checkForUpdates().then(updateCheck => {
+        if (updateCheck.updateInfo.version) {
+            console.log(`✅ Nova versão disponível: ${updateCheck.updateInfo.version}`);
+        } else {
+            console.log("❌ Nenhuma atualização disponível.");
+        }
+    }).catch(err => console.error("⚠️ Erro ao verificar atualização:", err));
+  }, 5000);
 
 }
 
