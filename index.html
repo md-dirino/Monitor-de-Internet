@@ -52,13 +52,13 @@
                 Manter log (dias):
                 <input type="number" id="manterLogDias" min="1" value="90">
             </label>
+            <button onclick="confirmClearLog()" style="margin-top: 5px; background-color: rgb(218, 48, 48);">Limpar Log</button>
         </div>
-        <button onclick="salvarConfiguracoes()">Salvar</button>
-        <button onclick="confirmClearLog()" style="margin-top: 10px;">Limpar Log</button>
+        <button onclick="salvarConfiguracoes()" style="margin-top: 20px; background-color: rgb(50, 50, 218);">Salvar</button>
     </div>
     <div class="popup" id="popup"></div>
 
-    <button class="exibir-button" id="exibirButton" onclick="toggleExibir()">Exibir Mais</button>
+    <button class="exibir-button" id="exibirButton" onclick="toggleExibir()">Exibir</button>
 
     <button id="fullscreenButton" class="toggleable" style="position: fixed; bottom: 20px; left: 20px;">⛶</button>
 

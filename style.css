@@ -133,7 +133,7 @@ body {
 .config-group {
     border-bottom: 1px solid #4a4a4a;
     margin-bottom: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 0px;
 }
 .config-group:last-of-type {
     border-bottom: none;
