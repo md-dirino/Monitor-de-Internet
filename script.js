@@ -370,6 +370,11 @@ document.addEventListener("fullscreenchange", () => {
 // Event listener para o botão fullscreen
 document.getElementById("fullscreenButton").addEventListener("click", toggleFullscreen);
 
+// Função para verificar se o dispositivo suporta tela cheia
+function isFullscreenSupported() {
+    return document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled;
+}
+
 // Nova função para enviar notificações do sistema
 function enviarNotificacao(titulo, mensagem) {
     if (!notificacaoAtivada) return;
@@ -485,6 +490,11 @@ window.addEventListener("load", () => {
     verificarConexao(true);
     atualizarExibicao();
     document.getElementById("toggleVisibilityButton").addEventListener("click", toggleVisibility);
+    
+    // Verifica se o dispositivo suporta tela cheia
+    if (!isFullscreenSupported()) {
+        document.getElementById("fullscreenButton").style.display = "none";
+    }
 });
 
 function atualizarLogContainer() {
