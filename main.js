@@ -12,7 +12,7 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
 // Basico de Atualização
-autoUpdater.autoDownload = false; // Desabilita o download automático
+autoUpdater.autoDownload = true; // Baixa a atualização automaticamente
 autoUpdater.autoInstallOnAppQuit = true; // Instala a atualização ao sair do app
 
 // URL de atualizações (verifique se está correto)
@@ -63,18 +63,6 @@ const createWindow = () => {
     }
   });
 
-  // Verifica por atualizações após iniciar o app
-  setTimeout(() => {
-    console.log("🔍 Verificando por atualizações...");
-    autoUpdater.checkForUpdates().then(updateCheck => {
-        if (updateCheck.updateInfo.version) {
-            console.log(`✅ Nova versão disponível: ${updateCheck.updateInfo.version}`);
-        } else {
-            console.log("❌ Nenhuma atualização disponível.");
-        }
-    }).catch(err => console.error("⚠️ Erro ao verificar atualização:", err));
-  }, 5000);
-
 }
 
 // Eventos do autoUpdater
@@ -82,7 +70,12 @@ autoUpdater.on('update-available', () => {
   dialog.showMessageBox({
       type: 'info',
       title: 'Atualização disponível',
-      message: 'Uma nova versão está disponível. Baixando agora...',
+      message: 'Uma nova versão está disponível. Deseja baixar agora?',
+      buttons: ['Sim', 'Cancelar']
+  }).then(result => {
+      if (result.response === 0) { // Se o usuário clicar em "Sim"
+          autoUpdater.downloadUpdate();
+      }
   });
 });
 
@@ -92,7 +85,7 @@ autoUpdater.on('update-downloaded', () => {
       title: 'Atualização pronta',
       message: 'A atualização foi baixada. O aplicativo será reiniciado para aplicar as alterações.',
   }).then(() => {
-      autoUpdater.quitAndInstall();
+      autoUpdater.quitAndInstall(); // Fecha o app e instala a nova versão
   });
 });
 
