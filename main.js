@@ -11,9 +11,9 @@ const log = require('electron-log'); // Importa a biblioteca de log
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
-// Basico de Atualização
-autoUpdater.autoDownload = true; // Baixa a atualização automaticamente
-autoUpdater.autoInstallOnAppQuit = true; // Instala a atualização ao sair do app
+// Configuração de atualização automática
+autoUpdater.autoDownload = false; // O download só começa quando o usuário clicar em "Sim"
+autoUpdater.autoInstallOnAppQuit = true; // A atualização será instalada ao fechar o app
 
 // URL de atualizações (verifique se está correto)
 const server = 'https://update.electronjs.org';
