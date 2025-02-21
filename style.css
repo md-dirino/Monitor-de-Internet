@@ -48,6 +48,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 10;
 }
 .config-button {
     position: absolute;
@@ -239,14 +240,15 @@ body {
 
 .status-indicator {
     position: absolute;
-    top: 10px;
-    left: 30px;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; /* Aumenta o tamanho */
+    height: 700px; /* Aumenta o tamanho */
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    opacity: 0.1;
 }
 
 .status-indicator::after {
@@ -255,8 +257,8 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
+    width: 350px; /* Aumenta o tamanho */
+    height: 350px; /* Aumenta o tamanho */
     border-radius: 50%;
     background: currentColor;
     animation: pulse 2s infinite;
