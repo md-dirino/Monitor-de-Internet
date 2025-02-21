@@ -121,6 +121,12 @@ function toggleExibir() {
     atualizarExibicao();
 }
 
+function toggleVisibility() {
+    exibirInfos = !exibirInfos;
+    localStorage.setItem("exibirTudo", exibirInfos);
+    atualizarExibicao();
+}
+
 async function testarConexaoManual() {
     verificarConexao(true);
 }
@@ -478,6 +484,7 @@ window.addEventListener("load", () => {
     exibirLog();
     verificarConexao(true);
     atualizarExibicao();
+    document.getElementById("toggleVisibilityButton").addEventListener("click", toggleVisibility);
 });
 
 function atualizarLogContainer() {
