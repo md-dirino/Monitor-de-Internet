@@ -307,3 +307,50 @@ body {
         opacity: 1;
     }
 }
+
+/* Estilos para os tooltips */
+[data-tooltip] {
+    position: relative;
+    cursor: pointer;
+}
+
+[data-tooltip]::before,
+[data-tooltip]::after {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: all 0.2s ease;
+}
+
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    bottom: 140%; /* Ajuste conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 12000;
+    font-weight: 200; /* Diminui a espessura da letra */
+}
+
+[data-tooltip]::after {
+    content: '';
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.1);
+    bottom: 130%; /* Ajuste conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 12000;
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after {
+    visibility: visible;
+    opacity: 1;
+    bottom: 115%; /* Ajuste conforme necessário */
+}
