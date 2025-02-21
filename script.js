@@ -96,7 +96,7 @@ function carregarConfiguracoes() {
 
 // Oculta ou exibe tudo, exceto o status, com base em "exibirInfos"
 function atualizarExibicao() {
-    const toggleables = document.querySelectorAll('.toggleable:not(#status):not(#config)');
+    const toggleables = document.querySelectorAll('.toggleable:not(#status):not(#config):not(#statusIndicator)');
     const logContainer = document.getElementById('logContainer');
     const logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
 
