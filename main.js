@@ -193,17 +193,76 @@ autoUpdater.on('update-available', () => {
 });
 
 // Evento para exibir progresso do download
-autoUpdater.on('download-progress', (progressObj) => {
-  dialog.showMessageBox({
-      type: 'info',
-      title: 'Baixando atualização...',
-      message: `Progresso: ${progressObj.percent.toFixed(2)}%`,
-      buttons: ['OK']
-  });
+let progressWin = null; // Variável para armazenar a janela de progresso
+
+autoUpdater.on('update-available', () => {
+    dialog.showMessageBox({
+        type: 'info',
+        title: 'Atualização disponível',
+        message: 'Uma nova versão está disponível. Deseja baixar agora?',
+        buttons: ['Sim', 'Cancelar']
+    }).then(result => {
+        if (result.response === 0) { // Se o usuário clicar em "Sim"
+            progressWin = new BrowserWindow({
+                width: 400,
+                height: 200,
+                frame: false,
+                alwaysOnTop: true,
+                modal: true,
+                show: false,
+                webPreferences: {
+                    nodeIntegration: true
+                }
+            });
+
+            progressWin.loadURL(`data:text/html,
+                <html>
+                <head>
+                    <title>Baixando atualização...</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; text-align: center; }
+                        h2 { margin-bottom: 20px; }
+                        #progress { width: 100%; height: 25px; background: #ddd; border-radius: 5px; overflow: hidden; }
+                        #progress div { height: 100%; width: 0%; background: #4caf50; transition: width 0.2s; }
+                    </style>
+                </head>
+                <body>
+                    <h2>Baixando atualização...</h2>
+                    <div id="progress"><div></div></div>
+                    <p id="progress-text">0%</p>
+                    <script>
+                        require('electron').ipcRenderer.on('download-progress', (event, progress) => {
+                            document.getElementById('progress').children[0].style.width = progress + '%';
+                            document.getElementById('progress-text').innerText = progress + '%';
+                        });
+                    </script>
+                </body>
+                </html>
+            `);
+
+            progressWin.once('ready-to-show', () => {
+                progressWin.show();
+            });
+
+            autoUpdater.downloadUpdate(); // Começa o download da atualização
+        }
+    });
 });
 
-// Quando o download for concluído, exibe a mensagem de instalação
+// Evento para atualizar a barra de progresso
+autoUpdater.on('download-progress', (progressObj) => {
+  if (progressWin) {
+      progressWin.webContents.send('download-progress', progressObj.percent.toFixed(2));
+  }
+});
+
+// Quando o download for concluído, fechar a janela e instalar a atualização
 autoUpdater.on('update-downloaded', () => {
+  if (progressWin) {
+      progressWin.close();
+      progressWin = null;
+  }
+
   dialog.showMessageBox({
       type: 'info',
       title: 'Atualização pronta',
