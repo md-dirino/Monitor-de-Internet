@@ -228,7 +228,9 @@ async function exibirLog() {
     }
 
     logs = limparLogAntigo(logs);
-    localStorage.setItem("historicoLog", JSON.stringify(logs));
+    if (!window.electronAPI) {
+        localStorage.setItem("historicoLog", JSON.stringify(logs));
+    }
 
     // Gera o conteúdo de log
     const ordenadoAsc = [...logs].reverse();
