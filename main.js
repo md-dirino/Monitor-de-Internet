@@ -43,9 +43,8 @@ function ensureLogsFileExists() {
 // Função para salvar logs enviada pelo Renderer
 ipcMain.on('save-log', (event, mensagemJson) => {
     try {
-        console.log("📥 Log recebido do renderer:", mensagemJson);
+        console.log("Log recebido do renderer:", mensagemJson);
 
-        // 🔹 Verifica se a mensagem é um JSON válido
         const mensagemObj = JSON.parse(mensagemJson);
 
         if (!mensagemObj || typeof mensagemObj !== 'object' || !mensagemObj.time || !mensagemObj.texto) {
@@ -56,9 +55,9 @@ ipcMain.on('save-log', (event, mensagemJson) => {
         const logEntry = `${new Date(time).toLocaleString()} - ${texto}\n`;
 
         fs.appendFileSync(logsFile, logEntry);
-        console.log("✅ Log salvo:", logEntry);
+        console.log("Log salvo:", logEntry);
     } catch (error) {
-        console.error("❌ Erro ao salvar log:", error);
+        console.error("Erro ao salvar log:", error);
     }
 });
 
@@ -83,7 +82,7 @@ function converterDataHora(dataHora) {
       return Date.parse(dataFormatada);
   }
   
-  console.error(`⚠️ Formato de data inválido: ${dataHora}`);
+  console.error(`Formato de data inválido: ${dataHora}`);
   return NaN;
 }
 
@@ -103,14 +102,14 @@ function lerLogsDoArquivo() {
                   if (!isNaN(timestamp)) {
                       return { time: timestamp, texto };
                   } else {
-                      console.error(`⚠️ Erro ao converter data corrigida: ${dataHora}`);
+                      console.error(`Erro ao converter data corrigida: ${dataHora}`);
                   }
               }
               return null; // Ignorar linhas inválidas
           }).filter(log => log !== null);
       }
   } catch (error) {
-      console.error("❌ Erro ao ler logs do arquivo:", error);
+      console.error("Erro ao ler logs do arquivo:", error);
   }
   return [];
 }

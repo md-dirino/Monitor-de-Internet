@@ -161,38 +161,33 @@ async function testarConexaoManual() {
 }
 
 function adicionarLogEntrada(mensagem) {
-    console.log("🔹 Função adicionarLogEntrada chamada com mensagem:", mensagem);
+    console.log("🔹 Novo Log recebido:", mensagem);
 
     if (!logAtivado) {
         console.log("⚠ Log desativado! Nenhuma ação será realizada.");
         return;
     }
 
-    let logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
-    console.log("📌 Logs atuais no localStorage:", logs);
-
-    logs = limparLogAntigo(logs);
-    console.log("✅ Logs antigos limpos.");
-
     const novaEntrada = {
         time: Date.now(),
         texto: mensagem
     };
 
-    logs.unshift(novaEntrada);
-    localStorage.setItem("historicoLog", JSON.stringify(logs));
-    console.log("✅ Novo log armazenado no localStorage:", novaEntrada);
+    // Verificar se a API do preload.js está acessível
+    if (window.electronAPI) {
+        console.log("🟢 API do preload.js encontrada!");
+        window.electronAPI.sendLog(novaEntrada); // 🔹 Envia o objeto JSON corretamente
+    } else {
+        console.log("❌ API do preload.js NÃO encontrada! O log será salvo no localStorage.");
+
+        let logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
+        logs = limparLogAntigo(logs);
+        logs.unshift(novaEntrada);
+        localStorage.setItem("historicoLog", JSON.stringify(logs));
+    }
 
     exibirLog();
     console.log("📢 Logs exibidos na interface!");
-
-    // Verificar se a API do preload.js está acessível
-    if (window.electronAPI) {
-        console.log("🟢 API do preload.js encontrada! Enviando log para o main.js...");
-        window.electronAPI.sendLog("Conexão caiu"); // 🔹 Envia a string diretamente
-    } else {
-        console.log("❌ API do preload.js NÃO encontrada! O log não será salvo no arquivo.");
-    }    
 }
 
 function limparLogAntigo(logs) {
@@ -361,19 +356,19 @@ function confirmClearLog() {
 }
 
 // Nova função: Limpa o log do localStorage e atualiza a área de log
-function clearLog() {
-    localStorage.removeItem("historicoLog");
-    exibirLog();
-    mostrarPopup("Log limpo!");
-    limparLogs();
-}
-
-function limparLogs() {
+function clearLog() {  
     // Limpa os logs do localStorage
+    localStorage.removeItem("historicoLog");
     localStorage.removeItem('logs');
 
     // Envia uma mensagem para o processo principal para limpar os logs do arquivo
     window.electronAPI.limparLogsArquivo();
+
+    //document.getElementById("logContainer").innerHTML = ""; // Limpa a div logContainer
+    //document.getElementById("logContainer").style.display = "none"; // Ocultar a div logContainer após limpar
+
+    exibirLog();
+    mostrarPopup("Log limpo!");
 }
 
 // Nova variável global para pausado

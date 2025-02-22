@@ -6,10 +6,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     limparLogsArquivo: () => ipcRenderer.send('limpar-logs-arquivo'),
 
     sendLog: (mensagem) => {
-        if (typeof mensagem === "string") {
-            const logData = { time: Date.now(), texto: mensagem };
-            console.log("📤 Enviando log para o main.js:", logData);
-            ipcRenderer.send('save-log', JSON.stringify(logData)); // 🔹 Agora enviando um JSON correto
+        if (mensagem && typeof mensagem === "object" && mensagem.time && mensagem.texto) {
+            console.log("🔄️ Encaminhando Log para o main.js salvar no txt:", mensagem);
+            ipcRenderer.send('save-log', JSON.stringify(mensagem)); // 🔹 Envia o objeto JSON corretamente
         } else {
             console.error("❌ Erro: sendLog recebeu um tipo de dado inesperado:", mensagem);
         }
