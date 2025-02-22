@@ -6,5 +6,8 @@ contextBridge.exposeInMainWorld('electron', {
     sendLog: (mensagem) => {
         console.log("📤 Enviando log para o main.js:", mensagem);
         ipcRenderer.send('save-log', mensagem);
+    },
+    getLogs: async () => {
+        return await ipcRenderer.invoke('get-logs');
     }
 });

@@ -54,6 +54,56 @@ ipcMain.on('save-log', (event, mensagem) => {
   }
 });
 
+// Função para converter datas no formato "DD/MM/YYYY, HH:MM:SS" para timestamp correto
+function converterDataHora(dataHora) {
+  const regex = /^(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})$/;
+  const match = dataHora.match(regex);
+
+  if (match) {
+      const [, dia, mes, ano, hora, minuto, segundo] = match;
+      const dataFormatada = `${ano}-${mes}-${dia}T${hora}:${minuto}:${segundo}`;
+      return Date.parse(dataFormatada);
+  }
+  
+  console.error(`⚠️ Formato de data inválido: ${dataHora}`);
+  return NaN;
+}
+
+// Função para ler logs do arquivo e converter corretamente para JSON
+function lerLogsDoArquivo() {
+  try {
+      if (fs.existsSync(logsFile)) {
+          const logs = fs.readFileSync(logsFile, 'utf-8'); // Garante leitura UTF-8 correta
+          return logs.split('\n').filter(log => log.trim() !== '').map(log => {
+              const match = log.match(/^(.+?) - (.+)$/); // Captura a data/hora e a mensagem
+              if (match) {
+                  const dataHora = match[1].trim();
+                  const texto = match[2].trim();
+
+                  // Usar a função de conversão corrigida
+                  const timestamp = converterDataHora(dataHora);
+                  if (!isNaN(timestamp)) {
+                      return { time: timestamp, texto };
+                  } else {
+                      console.error(`⚠️ Erro ao converter data corrigida: ${dataHora}`);
+                  }
+              }
+              return null; // Ignorar linhas inválidas
+          }).filter(log => log !== null);
+      }
+  } catch (error) {
+      console.error("❌ Erro ao ler logs do arquivo:", error);
+  }
+  return [];
+}
+
+// Envia os logs para o renderer process quando solicitado
+ipcMain.handle('get-logs', () => {
+  const logs = lerLogsDoArquivo();
+  console.log("📡 Enviando logs para o renderer:", logs);
+  return logs;
+});
+
 // Cria a janela principal
 const createWindow = () => {
   nativeTheme.themeSource = 'dark'; // Define o tema como dark pra janela

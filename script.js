@@ -214,9 +214,16 @@ function getTimeDiffStr(msDiff) {
 }
 
 // Agrupamento de "Caiu" e "Voltou" com formatação padronizada
-function exibirLog() {
+async function exibirLog() {
     const logContainer = document.getElementById("logContainer");
-    let logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
+    let logs = [];
+
+    if (window.electron) {
+        logs = await window.electron.getLogs();
+    } else {
+        logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
+    }
+
     logs = limparLogAntigo(logs);
     localStorage.setItem("historicoLog", JSON.stringify(logs));
 
