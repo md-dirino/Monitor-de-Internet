@@ -6,6 +6,8 @@ const { autoUpdater, AppUpdater } = require('electron-updater'); // Importa a bi
 
 const path = require('node:path'); // Importa a biblioteca path
 const log = require('electron-log'); // Importa a biblioteca de log
+const fs = require('fs');
+const os = require('os');
 
 // Configurar logs para depuração
 autoUpdater.logger = log;
@@ -24,6 +26,22 @@ const feed = `${server}/md-dirino/Monitor-de-Internet/${process.platform}-${proc
 app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
 
 let mainWindow;
+
+const logsDir = path.join(os.homedir(), 'Monitor de Internet arquivos');
+const logsFile = path.join(logsDir, 'logs.txt');
+
+function ensureLogsFileExists() {
+    if (!fs.existsSync(logsDir)) {
+        fs.mkdirSync(logsDir, { recursive: true });
+    }
+    if (!fs.existsSync(logsFile)) {
+        fs.writeFileSync(logsFile, '');
+        const logs = JSON.parse(localStorage.getItem('historicoLog')) || [];
+        logs.forEach(log => {
+            fs.appendFileSync(logsFile, `${formatarData(log.time)} - ${log.texto}\n`);
+        });
+    }
+}
 
 // Cria a janela principal
 const createWindow = () => {
@@ -127,6 +145,7 @@ const aboutWindow = () => {
 // Cria a janela quando o aplicativo é iniciado
 app.whenReady().then(() => {
     createWindow(); // Exibe a janela principal ao abrir o aplicativo
+    ensureLogsFileExists();
     //aboutWindow();
 
     app.on('activate', () => {

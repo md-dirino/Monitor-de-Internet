@@ -4,7 +4,7 @@ let somAtivado = localStorage.getItem("somNotificacao") !== "false";
 let notificacaoAtivada = localStorage.getItem("notificacaoSistema") !== "false"; // Nova variável
 let tempoRestante = intervaloChecagem;
 
-let logAtivado = localStorage.getItem("logStatus") !== "false"; 
+let logAtivado = localStorage.getItem("logStatus") !== "false";
 let manterLogDias = parseInt(localStorage.getItem("manterLogDias")) || 90;
 let exibirInfos = localStorage.getItem("exibirTudo") !== "false"; // nova config
 
@@ -135,13 +135,33 @@ function adicionarLogEntrada(mensagem) {
     if (!logAtivado) return;
     let logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
     logs = limparLogAntigo(logs);
+
     const novaEntrada = {
         time: Date.now(),
         texto: mensagem
     };
+
     logs.unshift(novaEntrada);
     localStorage.setItem("historicoLog", JSON.stringify(logs));
     exibirLog();
+
+    if (typeof require !== 'undefined') {
+        const fs = require('fs');
+        const os = require('os');
+        const path = require('path');
+
+        const logsDir = path.join(os.homedir(), 'Monitor de Internet arquivos');
+        const logsFile = path.join(logsDir, 'logs.txt');
+
+        // Garantir que a pasta existe antes de gravar o log
+        if (!fs.existsSync(logsDir)) {
+            fs.mkdirSync(logsDir, { recursive: true });
+        }
+
+        if (fs.existsSync(logsFile)) {
+            fs.appendFileSync(logsFile, `${formatarData(novaEntrada.time)} - ${novaEntrada.texto}\n`);
+        }
+    }
 }
 
 function limparLogAntigo(logs) {
@@ -273,7 +293,7 @@ function confirmClearLog() {
         mostrarPopup("Nenhum log para limpar!");
         return;
     }
-    
+
     const popup = document.getElementById("popup");
     popup.innerHTML = `
         <div style="text-align:center;">
@@ -284,7 +304,7 @@ function confirmClearLog() {
     `;
     popup.style.display = "block";
     popup.classList.add("show");
-    
+
     document.getElementById("confirmYes").addEventListener("click", () => {
         clearLog();
         popup.classList.remove("show");
@@ -292,7 +312,7 @@ function confirmClearLog() {
             popup.style.display = "none";
         }, 1000);
     });
-    
+
     document.getElementById("confirmNo").addEventListener("click", () => {
         popup.classList.remove("show");
         setTimeout(() => {
@@ -378,9 +398,9 @@ function isFullscreenSupported() {
 // Nova função para enviar notificações do sistema
 function enviarNotificacao(titulo, mensagem) {
     if (!notificacaoAtivada) return;
-    
+
     if (!("Notification" in window)) return;
-    
+
     const options = {
         body: mensagem,
         icon: 'resources/app/icon.ico', // Se tiver um ícone
@@ -389,7 +409,7 @@ function enviarNotificacao(titulo, mensagem) {
         requireInteraction: false, // Fecha automaticamente
         data: { application: 'Monitor de Internet' }
     };
-    
+
     if (Notification.permission === "granted") {
         new Notification("Monitor de Internet - " + titulo, options);
     } else if (Notification.permission !== "denied") {
@@ -490,7 +510,7 @@ window.addEventListener("load", () => {
     verificarConexao(true);
     atualizarExibicao();
     document.getElementById("toggleVisibilityButton").addEventListener("click", toggleVisibility);
-    
+
     // Verifica se o dispositivo suporta tela cheia
     if (!isFullscreenSupported()) {
         document.getElementById("fullscreenButton").style.display = "none";
@@ -500,7 +520,7 @@ window.addEventListener("load", () => {
 function atualizarLogContainer() {
     const logContainer = document.getElementById('logContainer');
     const logs = Array.from(logContainer.children);
-    
+
     if (logs.length === 0) {
         logContainer.style.display = 'none';
         return;
@@ -521,7 +541,7 @@ function adicionarLog(mensagem) {
     logItem.className = 'log-item';
     logItem.textContent = `${new Date().toLocaleString()} - ${mensagem}`;
     logContainer.appendChild(logItem);
-    
+
     // Chama a função após adicionar um novo log
     atualizarLogContainer();
 
@@ -530,7 +550,7 @@ function adicionarLog(mensagem) {
 
 function carregarLogs() {
     // ...existing code...
-    
+
     // Adicione esta linha no final da função carregarLogs
     atualizarLogContainer();
 }
