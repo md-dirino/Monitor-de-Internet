@@ -13,18 +13,26 @@ let exibirInfos = localStorage.getItem("exibirTudo") !== "false"; // nova config
 const somOnline = new Audio("https://www.fesliyanstudios.com/play-mp3/5263");
 const somOffline = new Audio("https://www.fesliyanstudios.com/play-mp3/6728");
 
-window.addEventListener("DOMContentLoaded", () => {
-    console.log("🔄️ Verificando se existem logs antigos no localStorage para enviar pro arquivo local logs.txt");
+window.addEventListener("DOMContentLoaded", async () => {
+    console.log("🔄️ Verificando logs antigos no localStorage para exportar para logs.txt");
 
     let logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
 
-    if (logs.length > 0 && window.electron) {
+    if (logs.length > 0 && window.electronAPI) {
+        // 🔹 Obtém os logs já existentes no arquivo para evitar duplicação
+        const logsArquivo = await window.electronAPI.getLogs();
+        const logsArquivoTexto = logsArquivo.map(log => log.texto);
+
         logs.forEach(log => {
-            console.log(`📜 Exportando log antigo: ${log.texto} (${new Date(log.time).toLocaleString()})`);
-            window.electron.sendLog({ time: log.time, texto: log.texto });
+            if (!logsArquivoTexto.includes(log.texto)) { // 🔹 Só envia se não estiver no arquivo
+                console.log(`📜 Exportando log antigo: ${log.texto}`);
+                window.electronAPI.sendLog(log);
+            } else {
+                console.log(`⚠️ Log já existe no arquivo, ignorando: ${log.texto}`);
+            }
         });
 
-        // ✅ Após exportação, limpar o localStorage para evitar duplicações
+        // 🔹 Após exportação, limpar o localStorage para evitar duplicações futuras
         localStorage.removeItem("historicoLog");
         console.log("🗑️ Logs antigos removidos do localStorage!");
     } else {
@@ -179,12 +187,12 @@ function adicionarLogEntrada(mensagem) {
     console.log("📢 Logs exibidos na interface!");
 
     // Verificar se a API do preload.js está acessível
-    if (window.electron) {
+    if (window.electronAPI) {
         console.log("🟢 API do preload.js encontrada! Enviando log para o main.js...");
-        window.electron.sendLog(novaEntrada.texto);
+        window.electronAPI.sendLog("Conexão caiu"); // 🔹 Envia a string diretamente
     } else {
         console.log("❌ API do preload.js NÃO encontrada! O log não será salvo no arquivo.");
-    }
+    }    
 }
 
 function limparLogAntigo(logs) {
@@ -218,8 +226,8 @@ async function exibirLog() {
     const logContainer = document.getElementById("logContainer");
     let logs = [];
 
-    if (window.electron) {
-        logs = await window.electron.getLogs();
+    if (window.electronAPI) {
+        logs = await window.electronAPI.getLogs();
     } else {
         logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
     }
@@ -357,6 +365,15 @@ function clearLog() {
     localStorage.removeItem("historicoLog");
     exibirLog();
     mostrarPopup("Log limpo!");
+    limparLogs();
+}
+
+function limparLogs() {
+    // Limpa os logs do localStorage
+    localStorage.removeItem('logs');
+
+    // Envia uma mensagem para o processo principal para limpar os logs do arquivo
+    window.electronAPI.limparLogsArquivo();
 }
 
 // Nova variável global para pausado

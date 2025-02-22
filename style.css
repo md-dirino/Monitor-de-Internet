@@ -273,12 +273,12 @@ body {
 }
 
 .status-indicator.offline {
-    color: #ff0000;
+    color: #ffffff;
 }
 
 .status-indicator.offline::after {
     animation: pulseOffline 1s infinite;
-    box-shadow: 0 0 15px red;
+    box-shadow: 0 0 15px rgb(255, 210, 210);
 }
 
 .status-indicator.testing {

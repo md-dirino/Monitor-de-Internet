@@ -41,17 +41,35 @@ function ensureLogsFileExists() {
 }
 
 // Função para salvar logs enviada pelo Renderer
-ipcMain.on('save-log', (event, mensagem) => {
-  if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
-  }
+ipcMain.on('save-log', (event, mensagemJson) => {
+    try {
+        console.log("📥 Log recebido do renderer:", mensagemJson);
 
-  try {
-      fs.appendFileSync(logsFile, `${new Date().toLocaleString()} - ${mensagem}\n`);
-      console.log(`Log salvo no logs.txt: ${mensagem}`);
-  } catch (error) {
-      console.error("Erro ao salvar log:", error);
-  }
+        // 🔹 Verifica se a mensagem é um JSON válido
+        const mensagemObj = JSON.parse(mensagemJson);
+
+        if (!mensagemObj || typeof mensagemObj !== 'object' || !mensagemObj.time || !mensagemObj.texto) {
+            throw new Error("JSON inválido recebido! Estrutura esperada: { time, texto }");
+        }
+
+        const { time, texto } = mensagemObj;
+        const logEntry = `${new Date(time).toLocaleString()} - ${texto}\n`;
+
+        fs.appendFileSync(logsFile, logEntry);
+        console.log("✅ Log salvo:", logEntry);
+    } catch (error) {
+        console.error("❌ Erro ao salvar log:", error);
+    }
+});
+
+// Listener para limpar os logs do arquivo
+ipcMain.on('limpar-logs-arquivo', () => {
+    try {
+        fs.writeFileSync(logsFile, '');  // Limpa o conteúdo do arquivo de logs
+        console.log('Logs do arquivo "logs.txt" foram limpos.');
+    } catch (error) {
+        console.error("Erro ao limpar logs do arquivo:", error);
+    }
 });
 
 // Função para converter datas no formato "DD/MM/YYYY, HH:MM:SS" para timestamp correto
@@ -100,7 +118,7 @@ function lerLogsDoArquivo() {
 // Envia os logs para o renderer process quando solicitado
 ipcMain.handle('get-logs', () => {
   const logs = lerLogsDoArquivo();
-  console.log("📡 Enviando logs para o renderer:", logs);
+  console.log("Enviando logs para exibicao (renderer):", logs);
   return logs;
 });
 
