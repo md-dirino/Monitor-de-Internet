@@ -54,7 +54,17 @@ ipcMain.on('save-log', (event, mensagemJson) => {
         const { time, texto } = mensagemObj;
         const logEntry = `${new Date(time).toLocaleString()} - ${texto}\n`;
 
-        fs.appendFileSync(logsFile, logEntry);
+        // Lê o conteúdo atual do arquivo de logs
+        let logsAtuais = '';
+        if (fs.existsSync(logsFile)) {
+            logsAtuais = fs.readFileSync(logsFile, 'utf-8');
+        }
+
+        // Adiciona o novo log no topo
+        const novoConteudo = logEntry + logsAtuais;
+
+        // Escreve o novo conteúdo no arquivo de logs
+        fs.writeFileSync(logsFile, novoConteudo);
         console.log("Log salvo:", logEntry);
     } catch (error) {
         console.error("Erro ao salvar log:", error);
