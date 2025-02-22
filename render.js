@@ -1,3 +1,3 @@
 // Processo de Renderização
 
-console.log('Processo de renderização iniciado!');
+console.log('✅ Processo de renderização iniciado!');

@@ -1,3 +1,5 @@
+console.log('✅ Script iniciado!');
+
 let ultimoStatus = "";
 let intervaloChecagem = parseInt(localStorage.getItem("tempoChecagem")) || 30;
 let somAtivado = localStorage.getItem("somNotificacao") !== "false";
@@ -8,8 +10,27 @@ let logAtivado = localStorage.getItem("logStatus") !== "false";
 let manterLogDias = parseInt(localStorage.getItem("manterLogDias")) || 90;
 let exibirInfos = localStorage.getItem("exibirTudo") !== "false"; // nova config
 
-const somOnline = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
+const somOnline = new Audio("https://www.fesliyanstudios.com/play-mp3/5263");
 const somOffline = new Audio("https://www.fesliyanstudios.com/play-mp3/6728");
+
+window.addEventListener("DOMContentLoaded", () => {
+    console.log("🔄️ Verificando se existem logs antigos no localStorage para enviar pro arquivo local logs.txt");
+
+    let logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
+
+    if (logs.length > 0 && window.electron) {
+        logs.forEach(log => {
+            console.log(`📜 Exportando log antigo: ${log.texto} (${new Date(log.time).toLocaleString()})`);
+            window.electron.sendLog({ time: log.time, texto: log.texto });
+        });
+
+        // ✅ Após exportação, limpar o localStorage para evitar duplicações
+        localStorage.removeItem("historicoLog");
+        console.log("🗑️ Logs antigos removidos do localStorage!");
+    } else {
+        console.log("✅ Nenhum log encontrado no localStorage para exportação.");
+    }
+});
 
 function toggleConfig() {
     const config = document.getElementById("config");
@@ -132,9 +153,18 @@ async function testarConexaoManual() {
 }
 
 function adicionarLogEntrada(mensagem) {
-    if (!logAtivado) return;
+    console.log("🔹 Função adicionarLogEntrada chamada com mensagem:", mensagem);
+
+    if (!logAtivado) {
+        console.log("⚠ Log desativado! Nenhuma ação será realizada.");
+        return;
+    }
+
     let logs = JSON.parse(localStorage.getItem("historicoLog")) || [];
+    console.log("📌 Logs atuais no localStorage:", logs);
+
     logs = limparLogAntigo(logs);
+    console.log("✅ Logs antigos limpos.");
 
     const novaEntrada = {
         time: Date.now(),
@@ -143,24 +173,17 @@ function adicionarLogEntrada(mensagem) {
 
     logs.unshift(novaEntrada);
     localStorage.setItem("historicoLog", JSON.stringify(logs));
+    console.log("✅ Novo log armazenado no localStorage:", novaEntrada);
+
     exibirLog();
+    console.log("📢 Logs exibidos na interface!");
 
-    if (typeof require !== 'undefined') {
-        const fs = require('fs');
-        const os = require('os');
-        const path = require('path');
-
-        const logsDir = path.join(os.homedir(), 'Monitor de Internet arquivos');
-        const logsFile = path.join(logsDir, 'logs.txt');
-
-        // Garantir que a pasta existe antes de gravar o log
-        if (!fs.existsSync(logsDir)) {
-            fs.mkdirSync(logsDir, { recursive: true });
-        }
-
-        if (fs.existsSync(logsFile)) {
-            fs.appendFileSync(logsFile, `${formatarData(novaEntrada.time)} - ${novaEntrada.texto}\n`);
-        }
+    // Verificar se a API do preload.js está acessível
+    if (window.electron) {
+        console.log("🟢 API do preload.js encontrada! Enviando log para o main.js...");
+        window.electron.sendLog(novaEntrada.texto);
+    } else {
+        console.log("❌ API do preload.js NÃO encontrada! O log não será salvo no arquivo.");
     }
 }
 

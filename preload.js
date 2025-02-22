@@ -1,11 +1,10 @@
-const { contextBridge, ipcRenderer } = require('electron')
+console.log('✅ Preload carregado com sucesso!');
 
-// Exponha funcionalidades protegidas para o processo de renderização
-contextBridge.exposeInMainWorld(
-    'api', {
-        // Coloque aqui as funções que você quer disponibilizar para o frontend
-        // Por exemplo:
-        ping: () => ipcRenderer.send('ping'),
-        // Adicione outras funções conforme necessário
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electron', {
+    sendLog: (mensagem) => {
+        console.log("📤 Enviando log para o main.js:", mensagem);
+        ipcRenderer.send('save-log', mensagem);
     }
-)
+});

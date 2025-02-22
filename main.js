@@ -1,7 +1,7 @@
 console.log('Processo principal iniciado!');  // Exibe uma mensagem no console
 
 // Importa as bibliotecas necessárias
-const { app, BrowserWindow, nativeTheme, Menu, dialog } = require('electron'); // Importa as bibliotecas necessárias
+const { app, BrowserWindow, nativeTheme, Menu, dialog, ipcMain } = require('electron'); // Importa as bibliotecas necessárias
 const { autoUpdater, AppUpdater } = require('electron-updater'); // Importa a biblioteca de atualização
 
 const path = require('node:path'); // Importa a biblioteca path
@@ -30,18 +30,29 @@ let mainWindow;
 const logsDir = path.join(os.homedir(), 'Monitor de Internet arquivos');
 const logsFile = path.join(logsDir, 'logs.txt');
 
+// Garante que a pasta e o arquivo de logs existam
 function ensureLogsFileExists() {
     if (!fs.existsSync(logsDir)) {
         fs.mkdirSync(logsDir, { recursive: true });
     }
     if (!fs.existsSync(logsFile)) {
-        fs.writeFileSync(logsFile, '');
-        const logs = JSON.parse(localStorage.getItem('historicoLog')) || [];
-        logs.forEach(log => {
-            fs.appendFileSync(logsFile, `${formatarData(log.time)} - ${log.texto}\n`);
-        });
+        fs.writeFileSync(logsFile, '');  // Apenas cria o arquivo vazio
     }
 }
+
+// Função para salvar logs enviada pelo Renderer
+ipcMain.on('save-log', (event, mensagem) => {
+  if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+  }
+
+  try {
+      fs.appendFileSync(logsFile, `${new Date().toLocaleString()} - ${mensagem}\n`);
+      console.log(`Log salvo no logs.txt: ${mensagem}`);
+  } catch (error) {
+      console.error("Erro ao salvar log:", error);
+  }
+});
 
 // Cria a janela principal
 const createWindow = () => {
@@ -55,7 +66,7 @@ const createWindow = () => {
         contextIsolation: true, // Mudado para true
         enableRemoteModule: true,
         webSecurity: true,
-        devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
+        //devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
         preload: path.join(__dirname, 'preload.js')  // Mantido o caminho absoluto
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
@@ -145,7 +156,7 @@ const aboutWindow = () => {
 // Cria a janela quando o aplicativo é iniciado
 app.whenReady().then(() => {
     createWindow(); // Exibe a janela principal ao abrir o aplicativo
-    ensureLogsFileExists();
+    ensureLogsFileExists(); // Garante que a pasta e o arquivo de logs existam
     //aboutWindow();
 
     app.on('activate', () => {
