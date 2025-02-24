@@ -403,7 +403,18 @@ document.getElementById("countdown").style.cursor = "pointer"; // Exibe ponteiro
 document.getElementById("countdown").addEventListener("click", () => {
     isCountdownPaused = !isCountdownPaused;
     updateCountdownDisplay();
+    toggleStatusIndicatorAnimation();
 });
+
+// Nova função: Alterna a animação do statusIndicator
+function toggleStatusIndicatorAnimation() {
+    const indicatorElement = document.getElementById("statusIndicator");
+    if (isCountdownPaused) {
+        indicatorElement.classList.add("paused");
+    } else {
+        indicatorElement.classList.remove("paused");
+    }
+}
 
 // Nova função: Alterna tela cheia
 function toggleFullscreen() {
