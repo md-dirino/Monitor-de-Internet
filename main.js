@@ -188,7 +188,7 @@ const createWindow = () => {
 // Evento para exibir progresso do download
 let progressWin = null; // Variável para armazenar a janela de progresso
 
-// Mantenha o listener que cria a janela de progresso:
+// Evento para exibir progresso do download
 autoUpdater.on('update-available', () => {
   dialog.showMessageBox({
       type: 'info',
@@ -205,11 +205,13 @@ autoUpdater.on('update-available', () => {
               modal: true,
               show: false,
               webPreferences: {
-                  nodeIntegration: true
+                  nodeIntegration: true,
+                  contextIsolation: false // Necessário para usar require no HTML
               }
           });
 
-          progressWin.loadURL(`data:text/html,
+          // Conteúdo HTML da janela de progresso
+          const htmlContent = `
               <html>
               <head>
                   <title>Baixando atualização...</title>
@@ -232,7 +234,10 @@ autoUpdater.on('update-available', () => {
                   </script>
               </body>
               </html>
-          `);
+          `;
+
+          // Carrega o HTML codificado para garantir a exibição correta
+          progressWin.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent));
 
           progressWin.once('ready-to-show', () => {
               progressWin.show();
