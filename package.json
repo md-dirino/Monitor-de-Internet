@@ -21,7 +21,7 @@
   "build": {
     "appId": "com.monitordeinternet.app",
     "productName": "Monitor de Internet",
-    "copyright": "© 2024 Maycon Douglas Dirino Silva",
+    "copyright": "© 2025 Maycon Douglas Dirino Silva",
     "asar": false,
     "directories": {
       "output": "dist"
