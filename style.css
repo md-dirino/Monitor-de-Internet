@@ -137,11 +137,15 @@ body {
     border-bottom: 1px solid #4a4a4a;
     margin-bottom: 15px;
     padding-bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .config-group:last-of-type {
     border-bottom: none;
     margin-bottom: 10px;
 }
+
 .popup {
     position: absolute;
     top: 50px;
@@ -372,4 +376,57 @@ body {
     visibility: visible;
     opacity: 1;
     bottom: 115%; /* Ajuste conforme necessário */
+}
+
+/* Container do interruptor */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 34px; /* Reduz a largura */
+    height: 20px; /* Reduz a altura */
+    margin-left: 10px; /* Espaçamento à esquerda para alinhamento */
+    vertical-align: middle; /* Alinha verticalmente ao meio */
+}
+
+/* Esconde o input original */
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Visual do interruptor */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: background-color 0.4s;
+    border-radius: 20px; /* Ajusta o arredondamento */
+}
+
+/* Bolinha que desliza */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px; /* Reduz a altura */
+    width: 16px; /* Reduz a largura */
+    left: 2px; /* Ajusta a posição */
+    bottom: 2px; /* Ajusta a posição */
+    background-color: #fff;
+    transition: transform 0.4s;
+    border-radius: 50%;
+}
+
+/* Quando o input está marcado (ligado) */
+input:checked + .slider {
+    background-color: #4CAF50; /* Cor verde ao ligar */
+}
+
+/* Movimenta a bolinha para a direita quando ligado */
+input:checked + .slider:before {
+    transform: translateX(28px); /* Ajusta a posição de deslocamento */
 }

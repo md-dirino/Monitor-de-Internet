@@ -32,24 +32,34 @@
             </label>
         </div>
         <div class="config-group">
-            <label class="checkbox-label">
+            <label class="toggle-switch">
                 <input type="checkbox" id="somNotificacao" checked>
-                Ativar som da notificação
+                <span class="slider"></span>
             </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="notificacaoSistema" checked>
-                Ativar notificações do sistema
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="exibirTudo" checked>
-                Exibir tudo
-            </label>
+            <span>Ativar som da notificação</span>
         </div>
         <div class="config-group">
-            <label class="checkbox-label">
-                <input type="checkbox" id="logStatus" checked>
-                Ativar log de status
+            <label class="toggle-switch">
+                <input type="checkbox" id="notificacaoSistema" checked>
+                <span class="slider"></span>
             </label>
+            <span>Ativar notificações do sistema</span>
+        </div>
+        <div class="config-group">
+            <label class="toggle-switch">
+                <input type="checkbox" id="exibirTudo" checked>
+                <span class="slider"></span>
+            </label>
+            <span>Exibir tudo</span>
+        </div>
+        <div class="config-group">
+            <label class="toggle-switch">
+                <input type="checkbox" id="logStatus" checked>
+                <span class="slider"></span>
+            </label>
+            <span>Ativar log de status</span>
+        </div>
+        <div class="config-group">
             <label>
                 Manter log (dias):
                 <input type="number" id="manterLogDias" min="1" value="90">

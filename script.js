@@ -632,3 +632,17 @@ document.getElementById("statusIndicator").addEventListener("click", () => {
     }
     testarConexaoManual();
 });
+
+// Seleciona todos os inputs dentro de .toggle-switch
+const switches = document.querySelectorAll('.toggle-switch input');
+
+// Para cada input, adiciona um "listener" para o evento 'change'
+switches.forEach((checkbox) => {
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      console.log(`O interruptor "${this.id}" está LIGADO.`);
+    } else {
+      console.log(`O interruptor "${this.id}" está DESLIGADO.`);
+    }
+  });
+});
