@@ -132,7 +132,7 @@ function atualizarExibicao() {
     toggleables.forEach(element => {
         // Caso especial para o logContainer
         if (element === logContainer) {
-            element.style.display = exibirInfos && logs.length > 0 ? "block" : "none";
+            element.style.display = exibirInfos && logs.length > 0 && logAtivado ? "block" : "none";
         } else {
             element.style.display = exibirInfos ? "block" : "none";
         }
@@ -148,6 +148,7 @@ function toggleExibir() {
     exibirInfos = true;
     localStorage.setItem("exibirTudo", true);
     atualizarExibicao();
+    exibirLog(); // Adiciona esta linha para garantir que o log seja reexibido
 }
 
 function toggleVisibility() {
