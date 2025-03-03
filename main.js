@@ -171,6 +171,18 @@ const createWindow = () => {
     }
   });
 
+  // Recarrega a janela com F5
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.type === 'keyDown' && input.key === 'F5') {
+        mainWindow.reload(); // Recarrega a janela
+    }
+  });
+
+  // Fecha o aplicativo quando a janela é fechada
+  mainWindow.on('closed', () => {
+      mainWindow = null;
+  });
+
 }
 
 // Eventos do autoUpdater
