@@ -157,6 +157,12 @@ function toggleVisibility() {
 }
 
 async function testarConexaoManual() {
+    // Se estiver pausado, remove a pausa
+    if (isCountdownPaused) {
+        isCountdownPaused = false;
+        updateCountdownDisplay();
+        toggleStatusIndicatorAnimation();
+    }
     verificarConexao(true);
 }
 
@@ -609,3 +615,12 @@ function carregarLogs() {
     // Adicione esta linha no final da função carregarLogs
     atualizarLogContainer();
 }
+
+document.getElementById("statusIndicator").addEventListener("click", () => {
+    if (isCountdownPaused) {
+        isCountdownPaused = false;
+        updateCountdownDisplay();
+        toggleStatusIndicatorAnimation();
+    }
+    testarConexaoManual();
+});
