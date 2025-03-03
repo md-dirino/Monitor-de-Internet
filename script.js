@@ -491,6 +491,9 @@ async function verificarConexao(manual = false) {
         statusElement.textContent = "Testando conexão...";
         bodyElement.style.background = "linear-gradient(180deg, orange, darkorange)";
         indicatorElement.className = "status-indicator toggleable testing";
+        isCountdownPaused = true; // Pausa o contador enquanto testa a conexão
+        updateCountdownDisplay();
+        toggleStatusIndicatorAnimation();
     }
     tempoRestante = intervaloChecagem;
 
@@ -537,6 +540,10 @@ async function verificarConexao(manual = false) {
             indicatorElement.className = "status-indicator toggleable offline";
             ultimoStatus = novoStatus;
         }, 500);
+    } finally {
+        isCountdownPaused = false; // Retoma o contador após o teste de conexão
+        updateCountdownDisplay();
+        toggleStatusIndicatorAnimation();
     }
 }
 
