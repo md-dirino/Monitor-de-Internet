@@ -1,10 +1,4 @@
-🚀 **Novidades na versão 1.2.14:**
+🚀 **Novidades na versão 1.2.15:**
 
-- Refatorar scripts de build para simplificar a execução e corrigir o fechamento do input do usuário
-- Melhorar script prebuild para fechar corretamente o input do usuário e garantir saída adequada após incrementar a versão
-- Atualizar versão do pacote para 1.2.14 e adicionar script prebuild para incrementar a versão antes da construção
-- Adicionar script prebuild para incrementar a versão do pacote antes da construção
-- Adicionar script para gerar notas de versão e atualizar quando gerar uma nova versão
-- Atualizar notas de versão para refletir a versão atual do package.json
-- Create release-notes.js
-- Refatorar configurações para usar interruptores deslizantes e adicionar logs de estado
+- Adicionar nota de versão sobre a refatoração dos scripts de build para simplificar a execução e corrigir o fechamento do input do usuário
+- Atualizar script de build para incluir notas de versão no processo de publicação
