@@ -4,6 +4,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "prebuild": "npm version patch --no-git-tag-version",
     "generate-release-notes": "node release-notes.js",
     "build": "npm run generate-release-notes && electron-builder --win --publish always --releaseNotesFile=release-notes.txt"
   },
