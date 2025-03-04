@@ -211,30 +211,33 @@ autoUpdater.on('update-available', () => {
           });
 
           // Conteúdo HTML da janela de progresso
-          const htmlContent = `
+            const htmlContent = `
               <html>
               <head>
-                  <title>Baixando atualização...</title>
-                  <style>
-                      body { font-family: Arial, sans-serif; text-align: center; }
-                      h2 { margin-bottom: 20px; }
-                      #progress { width: 100%; height: 25px; background: #ddd; border-radius: 5px; overflow: hidden; }
-                      #progress div { height: 100%; width: 0%; background: #4caf50; transition: width 0.2s; }
-                  </style>
+                <title>Baixando atualização...</title>
+                <style>
+                  body { font-family: Arial, sans-serif; text-align: center; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+                  .container { text-align: center; }
+                  h2 { margin-bottom: 20px; }
+                  #progress { width: 100%; height: 25px; background: #ddd; border-radius: 5px; overflow: hidden; }
+                  #progress div { height: 100%; width: 0%; background: #4caf50; transition: width 0.2s; }
+                </style>
               </head>
               <body>
+                <div class="container">
                   <h2>Baixando atualização...</h2>
                   <div id="progress"><div></div></div>
                   <p id="progress-text">0%</p>
-                  <script>
-                      require('electron').ipcRenderer.on('download-progress', (event, progress) => {
-                          document.getElementById('progress').children[0].style.width = progress + '%';
-                          document.getElementById('progress-text').innerText = progress + '%';
-                      });
-                  </script>
+                </div>
+                <script>
+                  require('electron').ipcRenderer.on('download-progress', (event, progress) => {
+                    document.getElementById('progress').children[0].style.width = progress + '%';
+                    document.getElementById('progress-text').innerText = progress + '%';
+                  });
+                </script>
               </body>
               </html>
-          `;
+            `;
 
           // Carrega o HTML codificado para garantir a exibição correta
           progressWin.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent));
