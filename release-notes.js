@@ -19,8 +19,11 @@ const currentVersion = packageJson.version || "Versão desconhecida";
 // Formata a descrição
 const releaseNotes = `🚀 **Novidades na versão ${currentVersion}:**\n\n${commitMessages || "Sem mudanças registradas."}`;
 
-// Salva em um arquivo temporário
-fs.writeFileSync("release-notes.txt", releaseNotes);
+// Atualiza o `package.json` dinamicamente com as notas de release
+packageJson.build.releaseNotes = releaseNotes;
+
+// Salva as mudanças no `package.json`
+fs.writeFileSync("package.json", JSON.stringify(packageJson, null, 2));
 
 // Exibe no console
 console.log(releaseNotes);
