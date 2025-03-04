@@ -12,8 +12,12 @@ try {
 // Obtém os commits desde a última tag
 const commitMessages = execSync(`git log ${lastTag}..HEAD --pretty=format:"- %s"`).toString().trim();
 
+// Lê a versão do package.json
+const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
+const currentVersion = packageJson.version || "Versão desconhecida";
+
 // Formata a descrição
-const releaseNotes = `🚀 **Novidades na versão ${process.env.npm_package_version}:**\n\n${commitMessages || "Sem mudanças registradas."}`;
+const releaseNotes = `🚀 **Novidades na versão ${currentVersion}:**\n\n${commitMessages || "Sem mudanças registradas."}`;
 
 // Salva em um arquivo temporário
 fs.writeFileSync("release-notes.txt", releaseNotes);
