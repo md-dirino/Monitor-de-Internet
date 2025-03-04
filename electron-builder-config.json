@@ -1,34 +1,34 @@
 {
-    "appId": "com.monitordeinternet.app",
-    "productName": "Monitor de Internet",
-    "copyright": "© 2025 Maycon Douglas Dirino Silva",
-    "asar": false,
-    "directories": {
-      "output": "dist"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "resources/app/icon.ico",
-      "artifactName": "Instalar - Monitor de Internet 64bits.exe"
-    },
-    "files": [
-      "main.js",
-      "index.html",
-      "sobre.html",
-      "package.json",
-      "icon.ico",
-      "style.css",
-      "script.js",
-      "render.js",
-      "preload.js",
-      "resources/**/*"
-    ],
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "md-dirino",
-        "repo": "Monitor-de-Internet",
-        "releaseType": "release"
-      }
-    ]
-  }  
+  "appId": "com.monitordeinternet.app",
+  "productName": "Monitor de Internet",
+  "copyright": "© 2025 Maycon Douglas Dirino Silva",
+  "asar": false,
+  "directories": {
+    "output": "dist"
+  },
+  "win": {
+    "target": "nsis",
+    "icon": "resources/app/icon.ico",
+    "artifactName": "Instalar - Monitor de Internet 64bits.exe"
+  },
+  "files": [
+    "main.js",
+    "index.html",
+    "sobre.html",
+    "package.json",
+    "icon.ico",
+    "style.css",
+    "script.js",
+    "render.js",
+    "preload.js",
+    "resources/**/*"
+  ],
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "md-dirino",
+      "repo": "Monitor-de-Internet",
+      "releaseType": "release"
+    }
+  ]
+}

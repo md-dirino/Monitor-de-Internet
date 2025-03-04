@@ -19,7 +19,7 @@ const currentVersion = packageJson.version || "Versão desconhecida";
 // Formata a descrição
 const releaseNotes = `🚀 **Novidades na versão ${currentVersion}:**\n\n${commitMessages || "Sem mudanças registradas."}`;
 
-// Salva em um arquivo externo
+// Salva em um arquivo externo para o Electron Builder usar
 fs.writeFileSync("release-notes.txt", releaseNotes);
 
 console.log("\nRelease Notes geradas:\n");

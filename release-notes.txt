@@ -1,4 +1,6 @@
-🚀 **Novidades na versão 1.2.15:**
+🚀 **Novidades na versão 1.2.16:**
 
-- Adicionar nota de versão sobre a refatoração dos scripts de build para simplificar a execução e corrigir o fechamento do input do usuário
-- Atualizar script de build para incluir notas de versão no processo de publicação
+- Adicionar configuração do electron-builder para empacotamento do aplicativo
+- Atualizar versão do pacote para 1.2.15 e ajustar notas de versão
+- Melhorar a interface da janela de progresso de atualização com centralização e estilo flexível
+- Atualizar versão do pacote para 1.2.15 e ajustar script de build para incluir informações de release notes
