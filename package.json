@@ -4,7 +4,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --win --publish always"
+    "generate-release-notes": "node release-notes.js",
+    "build": "npm run generate-release-notes && electron-builder --win --publish always --releaseNotesFile=release-notes.txt"
   },
   "repository": "https://github.com/md-dirino/Monitor-de-Internet",
   "keywords": [],
