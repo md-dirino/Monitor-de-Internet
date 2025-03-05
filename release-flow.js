@@ -40,7 +40,7 @@ async function main() {
         
         // Criar um commit inicial da nova versão
         execSync(`git add package.json`, { stdio: "inherit" });
-        execSync(`git commit -m "chore: Bump version to ${newVersion}"`, { stdio: "inherit" });
+        execSync(`git commit -m "Aumentou para a versão ${newVersion}"`, { stdio: "inherit" });
     } else {
         console.log("\n🔄 Mantendo a versão atual...");
     }
@@ -53,7 +53,7 @@ async function main() {
         commitMessages = "Sem mudanças registradas.";
     }
 
-    const releaseNotes = `🚀 **Novidades na versão ${newVersion}:**\n\n${commitMessages || "Sem mudanças registradas."}`;
+    const releaseNotes = `🚀 Novidades na versão ${newVersion}:\n\n${commitMessages || "Sem mudanças registradas."}`;
     fs.writeFileSync("release-notes.txt", releaseNotes);
 
     console.log("\n📃 Release Notes geradas:\n");
