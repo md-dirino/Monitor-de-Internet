@@ -63,22 +63,19 @@ async function main() {
     execSync(`git add release-notes.txt`, { stdio: "inherit" });
     execSync(`git commit -m "chore: Release ${newVersion}\n\n${releaseNotes}"`, { stdio: "inherit" });
 
-    // 5️⃣ Remover a tag localmente (se existir) antes de recriá-la
+    // 5️⃣ Verificar se a tag já existe no remoto antes de recriá-la
     try {
-        execSync(`git tag -d v${newVersion}`, { stdio: "inherit" });
+        execSync(`git ls-remote --tags origin v${newVersion}`, { stdio: "ignore" });
+        console.log(`ℹ️ A tag v${newVersion} já existe no remoto. Atualizando referência...`);
+        execSync(`git tag -f v${newVersion}`, { stdio: "inherit" });
     } catch (error) {
-        console.log(`ℹ️ Nenhuma tag local para remover.`);
+        console.log(`ℹ️ Criando nova tag v${newVersion}...`);
+        execSync(`git tag v${newVersion}`, { stdio: "inherit" });
     }
 
-    // 6️⃣ Criar ou atualizar a tag e empurrar para o repositório remoto
-    execSync(`git tag v${newVersion}`, { stdio: "inherit" });
-
-    try {
-        execSync(`git push && git push --tags`, { stdio: "inherit" });
-    } catch (error) {
-        console.error("\n⚠️ Falha ao enviar as tags. Tente rodar manualmente:");
-        console.error("   git push --force && git push --tags --force");
-    }
+    // 6️⃣ Enviar commits e tags para o repositório remoto
+    execSync(`git push`, { stdio: "inherit" });
+    execSync(`git push --tags`, { stdio: "inherit" });
 
     console.log(`\n✅ Versão ${newVersion} criada e commitada corretamente!`);
     console.log("Pronto para gerar o instalador.");
