@@ -1,4 +1,3 @@
-🚀 **Novidades na versão 1.2.19:**
+🚀 **Novidades na versão 1.2.20:**
 
-- chore: Bump version to 1.2.19
-- Atualizar fluxo de lançamento para criar nova tag e enviar apenas a tag atualizada para o repositório remoto
+- chore: Bump version to 1.2.20
