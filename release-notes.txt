@@ -1,5 +1,3 @@
 🚀 **Novidades na versão 1.2.17:**
 
-- Atualizar fluxo de lançamento para incluir a versão proposta na pergunta ao usuário e garantir que as notas de lançamento sejam adicionadas ao commit.
-- Adicionar interação para aumentar a versão do pacote e gerar release notes
-- Configurando novo gerador de instalador com publicação no GitHub
+- Atualizar fluxo de lançamento para remover e recriar tags, além de melhorar o tratamento de erros ao enviar para o GitHub
