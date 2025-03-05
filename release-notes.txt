@@ -1,10 +1,5 @@
 🚀 **Novidades na versão 1.2.17:**
 
-- chore: Bump version to 1.2.17
-- Remover configuração do electron-builder e atualizar versão do pacote para 1.2.17
-- Ajustar script de build para remover chamada ao prebuild.js e adicionar tipo de lançamento no repositório
-- Adicionar configuração do electron-builder e ajustar script de build
-- Remover configuração do electron-builder do script de build
-- Remover configuração do electron-builder do projeto
-- Atualizar versão do pacote para 1.2.16 e ajustar script de build para usar configuração do electron-builder
-- Adicionar configuração do electron-builder para empacotamento do aplicativo
+- Atualizar fluxo de lançamento para incluir a versão proposta na pergunta ao usuário e garantir que as notas de lançamento sejam adicionadas ao commit.
+- Adicionar interação para aumentar a versão do pacote e gerar release notes
+- Configurando novo gerador de instalador com publicação no GitHub
