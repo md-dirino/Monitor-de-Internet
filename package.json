@@ -1,10 +1,10 @@
 {
   "name": "monitor-de-internet",
-  "version": "1.2.16",
+  "version": "1.2.17",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "node prebuild.js && node release-notes.js && electron-builder --win --publish always"
+    "build": "node release-flow.js && electron-builder --win --publish always"
   },
   "repository": "https://github.com/md-dirino/Monitor-de-Internet",
   "keywords": [],
