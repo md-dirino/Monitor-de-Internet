@@ -41,7 +41,6 @@ async function main() {
         // Criar um commit inicial da nova versão
         execSync(`git add package.json`, { stdio: "inherit" });
         execSync(`git commit -m "chore: Bump version to ${newVersion}"`, { stdio: "inherit" });
-        execSync(`git tag v${newVersion}`, { stdio: "inherit" });
     } else {
         console.log("\n🔄 Mantendo a versão atual...");
     }
@@ -64,12 +63,22 @@ async function main() {
     execSync(`git add release-notes.txt`, { stdio: "inherit" });
     execSync(`git commit -m "chore: Release ${newVersion}\n\n${releaseNotes}"`, { stdio: "inherit" });
 
-    // 5️⃣ Atualizar a tag para apontar para o commit final
-    execSync(`git tag -d v${newVersion}`, { stdio: "inherit" });
+    // 5️⃣ Remover a tag localmente (se existir) antes de recriá-la
+    try {
+        execSync(`git tag -d v${newVersion}`, { stdio: "inherit" });
+    } catch (error) {
+        console.log(`ℹ️ Nenhuma tag local para remover.`);
+    }
+
+    // 6️⃣ Criar ou atualizar a tag e empurrar para o repositório remoto
     execSync(`git tag v${newVersion}`, { stdio: "inherit" });
 
-    // 6️⃣ Enviar tudo para o GitHub
-    execSync(`git push && git push --tags`, { stdio: "inherit" });
+    try {
+        execSync(`git push && git push --tags`, { stdio: "inherit" });
+    } catch (error) {
+        console.error("\n⚠️ Falha ao enviar as tags. Tente rodar manualmente:");
+        console.error("   git push --force && git push --tags --force");
+    }
 
     console.log(`\n✅ Versão ${newVersion} criada e commitada corretamente!`);
     console.log("Pronto para gerar o instalador.");
