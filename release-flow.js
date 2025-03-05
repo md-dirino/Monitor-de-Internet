@@ -48,7 +48,7 @@ async function main() {
     // 3️⃣ Gerar release notes com base nos commits desde a última versão
     let commitMessages;
     try {
-        commitMessages = execSync(`git log v${oldVersion}..HEAD --pretty=format:"- %s"`).toString().trim();
+        commitMessages = execSync(`git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"- %s"`).toString().trim();
     } catch (error) {
         commitMessages = "Sem mudanças registradas.";
     }
@@ -61,7 +61,7 @@ async function main() {
 
     // 4️⃣ Criar um novo commit para incluir as release notes na mensagem antes de gerar o instalador
     execSync(`git add release-notes.txt`, { stdio: "inherit" });
-    execSync(`git commit -m "chore: Release ${newVersion}\n\n${releaseNotes}"`, { stdio: "inherit" });
+    execSync(`git commit -m "${releaseNotes}"`, { stdio: "inherit" });
 
     // 5️⃣ Criar a nova tag da versão atual e enviar
     console.log(`ℹ️ Criando nova tag v${newVersion}...`);
