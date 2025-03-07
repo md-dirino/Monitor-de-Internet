@@ -156,7 +156,7 @@ const createWindow = () => {
         contextIsolation: true, // Mudado para true
         enableRemoteModule: true,
         webSecurity: true,
-        //devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
+        devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
         preload: path.join(__dirname, 'preload.js')  // Mantido o caminho absoluto
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
