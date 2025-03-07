@@ -4,6 +4,7 @@ dist/
 out/
 outros/
 resources/
+release-notes/
 
 # 🛑 Ignorar arquivos de build do Electron
 *.log
@@ -18,6 +19,3 @@ Thumbs.db
 node_modules/
 dist/
 out/
-
-# 🛑 Ignorar arquivos desnecessários
-release-notes.txt
