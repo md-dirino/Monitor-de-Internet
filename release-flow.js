@@ -49,7 +49,7 @@ async function main() {
 
     // Commit curto para indicar nova versão
     execSync("git add package.json", { stdio: "inherit" });
-    execSync(`git commit -m "🚀 Nova versão gerada ${newVersion}"`, { stdio: "inherit" });
+    execSync(`git commit -m "Nova versão ${newVersion} gerada"`, { stdio: "inherit" });
 
     // Criar e enviar a tag
     execSync(`git tag v${newVersion}`, { stdio: "inherit" });
