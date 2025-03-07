@@ -430,3 +430,16 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(28px); /* Ajusta a posição de deslocamento */
 }
+
+.version-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.103);
+    color: rgba(255, 255, 255, 0.726);
+    padding: 0px 10px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.096);
+    z-index: 1000;
+}
