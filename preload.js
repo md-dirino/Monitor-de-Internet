@@ -14,5 +14,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
         }
     },
 
-    getLogs: async () => await ipcRenderer.invoke('get-logs')
+    getLogs: async () => await ipcRenderer.invoke('get-logs'),
+
+    // 🔹 Adicionamos a funcionalidade de obter a versão do app
+    getAppVersion: async () => await ipcRenderer.invoke('get-app-version')
 });

@@ -25,6 +25,19 @@ const feed = `${server}/md-dirino/Monitor-de-Internet/${process.platform}-${proc
 
 app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
 
+const packageJsonPath = path.join(app.getAppPath(), 'package.json');
+
+// Função para obter a versão da aplicação no package.json
+function getAppVersion() {
+  try {
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+      return packageJson.version || "Versão não encontrada";
+  } catch (error) {
+      console.error("Erro ao ler a versão do package.json:", error);
+      return "Desconhecida";
+  }
+}
+
 let mainWindow;
 
 const logsDir = path.join(os.homedir(), 'Monitor de Internet arquivos');
@@ -143,7 +156,7 @@ const createWindow = () => {
         contextIsolation: true, // Mudado para true
         enableRemoteModule: true,
         webSecurity: true,
-        devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
+        //devTools: false,  //desabilitar o DevTools (Desabilitar a ferramenta de desenvolvedor)
         preload: path.join(__dirname, 'preload.js')  // Mantido o caminho absoluto
       },
       icon: "resources/app/icon.ico", // Define o ícone da janela
@@ -297,10 +310,15 @@ app.whenReady().then(() => {
     ensureLogsFileExists(); // Garante que a pasta e o arquivo de logs existam
     //aboutWindow();
 
+    // Cria o menu da aplicação
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
             createWindow();
         }
+    });
+
+    ipcMain.handle('get-app-version', async () => {
+      return getAppVersion();
     });
 
     autoUpdater.checkForUpdates(); // Verifica por atualizações ao iniciar o app
