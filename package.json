@@ -1,6 +1,6 @@
 {
   "name": "monitor-de-internet",
-  "version": "1.2.24",
+  "version": "1.2.25",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
