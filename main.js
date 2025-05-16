@@ -1,7 +1,7 @@
 console.log('Processo principal iniciado!');  // Exibe uma mensagem no console
 
 // Importa as bibliotecas necessárias
-const { app, BrowserWindow, nativeTheme, Menu, dialog, ipcMain } = require('electron'); // Importa as bibliotecas necessárias
+const { app, BrowserWindow, nativeTheme, Menu, dialog, ipcMain, Tray } = require('electron'); // Adicionado Tray às importações
 const { autoUpdater, AppUpdater } = require('electron-updater'); // Importa a biblioteca de atualização
 
 const path = require('node:path'); // Importa a biblioteca path
@@ -39,6 +39,7 @@ function getAppVersion() {
 }
 
 let mainWindow;
+let tray = null; // Nova variável global para armazenar a instância do tray
 
 const logsDir = path.join(os.homedir(), 'Monitor de Internet arquivos');
 const logsFile = path.join(logsDir, 'logs.txt');
@@ -144,6 +145,46 @@ ipcMain.handle('get-logs', () => {
   return logs;
 });
 
+// Função para criar o ícone na bandeja do sistema
+function createTray() {
+    const iconPath = path.join(__dirname, 'resources/app/icon.ico');
+    tray = new Tray(iconPath);
+    
+    tray.setToolTip('Monitor de Internet');
+    
+    tray.on('click', () => {
+        // Exibe a janela principal ao clicar no ícone da bandeja
+        if (mainWindow === null) {
+            createWindow();
+        } else {
+            mainWindow.show();
+        }
+    });
+    
+    const contextMenu = Menu.buildFromTemplate([
+        { 
+            label: 'Abrir Monitor', 
+            click: () => {
+                if (mainWindow === null) {
+                    createWindow();
+                } else {
+                    mainWindow.show();
+                }
+            }
+        },
+        { type: 'separator' },
+        { 
+            label: 'Sair', 
+            click: () => {
+                app.isQuitting = true;
+                app.quit();
+            }
+        }
+    ]);
+    
+    tray.setContextMenu(contextMenu);
+}
+
 // Cria a janela principal
 const createWindow = () => {
   nativeTheme.themeSource = 'dark'; // Define o tema como dark pra janela
@@ -162,6 +203,7 @@ const createWindow = () => {
       icon: "resources/app/icon.ico", // Define o ícone da janela
       autoHideMenuBar: true, // Oculta a barra de menu nativa
       //titleBarStyle: 'hidden' // Oculta a barra de título e menu
+      show: false // A janela é criada oculta inicialmente
   })
 
   // Exibe o template do Menu personalizado
@@ -169,6 +211,11 @@ const createWindow = () => {
 
   // Carrega o arquivo HTML local
   mainWindow.loadFile("index.html");
+
+  // Exibe a janela quando estiver pronta
+  mainWindow.once('ready-to-show', () => {
+      // Não mostra automaticamente na inicialização
+  });
 
   // Captura quando a tecla ESC é pressionada e sai do modo tela cheia
   mainWindow.webContents.on('before-input-event', (event, input) => {
@@ -189,6 +236,16 @@ const createWindow = () => {
     if (input.type === 'keyDown' && input.key === 'F5') {
         mainWindow.reload(); // Recarrega a janela
     }
+  });
+
+  // Intercepta o evento 'close' para minimizar em vez de fechar
+  mainWindow.on('close', (event) => {
+      if (!app.isQuitting) {
+          event.preventDefault();
+          mainWindow.hide();
+          return false;
+      }
+      return true;
   });
 
   // Fecha o aplicativo quando a janela é fechada
@@ -306,8 +363,9 @@ const aboutWindow = () => {
 
 // Cria a janela quando o aplicativo é iniciado
 app.whenReady().then(() => {
-    createWindow(); // Exibe a janela principal ao abrir o aplicativo
     ensureLogsFileExists(); // Garante que a pasta e o arquivo de logs existam
+    createTray(); // Cria o ícone na bandeja do sistema
+    createWindow(); // Cria a janela principal, mas ela não será exibida
     //aboutWindow();
 
     // Configura o aplicativo para iniciar junto com o Windows, exibindo o widget automaticamente
@@ -333,11 +391,19 @@ app.whenReady().then(() => {
   
 });
 
+// Adiciona uma flag para controlar o comportamento de saída
+app.isQuitting = false;
+
 // Fecha a janela quando o aplicativo é fechado
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
+});
+
+// Limpa a variável tray quando o app é encerrado
+app.on('before-quit', () => {
+    app.isQuitting = true;
 });
 
 // Cria template do menu
