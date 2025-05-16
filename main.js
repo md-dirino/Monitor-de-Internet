@@ -310,6 +310,14 @@ app.whenReady().then(() => {
     ensureLogsFileExists(); // Garante que a pasta e o arquivo de logs existam
     //aboutWindow();
 
+    // Configura o aplicativo para iniciar junto com o Windows, exibindo o widget automaticamente
+    if (app.isPackaged) { // Executa apenas em ambiente de produção
+        app.setLoginItemSettings({
+            openAtLogin: true,                     // abre o app ao iniciar o sistema
+            path: app.getPath('exe'),              // caminho do executável gerado pelo Electron
+        });
+    }
+
     // Cria o menu da aplicação
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
